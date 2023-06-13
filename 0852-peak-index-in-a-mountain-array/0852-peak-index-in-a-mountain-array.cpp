@@ -14,7 +14,7 @@ public:
             mid = s+(e-s)/2;
         }
         
-        return mid;
+        return s;
     }
     
     int peakIndexInMountainArray(vector<int>& arr) {
