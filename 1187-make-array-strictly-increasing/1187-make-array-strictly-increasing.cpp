@@ -1,58 +1,25 @@
-#include <vector>
-#include <map>
-#include <algorithm>
-#include <utility>
-
-using namespace std;
-
 class Solution {
 public:
-    int makeArrayIncreasing(vector<int>& arr1, vector<int>& arr2) {
-        sort(arr2.begin(), arr2.end());
-        
-        int answer = dfs(0, -1, arr1, arr2);
-        
-        return answer < 2001 ? answer : -1;
-    }
-    
-    map<pair<int, int>, int> dp;
-    int dfs(int i, int prev, vector<int>& arr1, vector<int>& arr2) {
-        if (i == arr1.size()) {
+    int solve(int i,int j,int &a,int &b,int p,vector<vector<int>> &dp,vector<int> &v1,vector<int> &v2){
+        if(i==a){
             return 0;
         }
-        if (dp.count({i, prev})) {
-            return dp[{i, prev}];
-        }
-
-        int cost = 2001;
-
-        // If arr1[i] is already greater than prev, we can leave it be.
-        if (arr1[i] > prev) {
-            cost = dfs(i + 1, arr1[i], arr1, arr2);
-        }
-
-        // Find a replacement with the smallest value in arr2.
-        int idx = bisectRight(arr2, prev);
-
-        // Replace arr1[i], with a cost of 1 operation.
-        if (idx < arr2.size()) {
-            cost = min(cost, 1 + dfs(i + 1, arr2[idx], arr1, arr2));
-        }
-
-        dp[{i, prev}] = cost;
-        return cost;
+        j = upper_bound(v2.begin()+j,v2.end(),p)-v2.begin();
+        if(dp[i][j] != -1)return dp[i][j];
+        if(j==b && v1[i]<=p)return 2001;
+        int take = 2001,nottake = 2001;
+        if(j!=b)
+        take = solve(i+1,j+1,a,b,v2[j],dp,v1,v2)+1;
+        if(v1[i]>p)
+        nottake = solve(i+1,j,a,b,v1[i],dp,v1,v2);
+        return dp[i][j] = min(take,nottake);
     }
-    
-    int bisectRight(vector<int>& arr, int value) {
-        int left = 0, right = arr.size();
-        while (left < right) {
-            int mid = (left + right) / 2;
-            if (arr[mid] <= value) {
-                left = mid + 1;
-            } else {
-                right = mid;
-            }
-        }
-        return left;
-    } 
+    int makeArrayIncreasing(vector<int>& arr1, vector<int>& arr2) {
+        int n = arr1.size(),m=arr2.size();
+        vector<vector<int>> dp(2001,vector<int>(2001,-1));
+        sort(arr2.begin(),arr2.end());
+        int a= solve(0,0,n,m,-1,dp,arr1,arr2);
+        if(a>n)return -1;
+        return a;
+    }
 };
