@@ -2,7 +2,7 @@ class Solution {
 public:
     int jumps(vector<int>& obs, int pos, int lane,vector<vector<int>>& dp){
         int n = obs.size()-1;
-        if(pos==n){
+        if(pos>=n){
             return 0;
         }
         if(dp[lane][pos]!=-1){
