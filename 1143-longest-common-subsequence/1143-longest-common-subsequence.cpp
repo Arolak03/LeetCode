@@ -1,29 +1,24 @@
 class Solution {
 public:
-    int longestCommonSubsequence(string a, string b) {
-            int n=a.size(), m = b.size();
-    int **dp;
-    dp = new int*[n+1];
-    for(int i=0;i<=n;i++){
-        dp[i] = new int[m+1];
-        for(int j=0;j<=m;j++){
-            if(i!=0 && j!=0)
-            dp[i][j] = -1;
-            else
-            dp[i][j] = 0;
+    
+    int subs(string& a, string& b, int i, int j, vector<vector<int>>& dp){
+        if(a.length()==i || b.length()==j){
+            return 0;
         }
-    }
-    for(int i=1;i<=n;i++){
-        for(int j=1;j<=m;j++){
-            
-        if(a[i-1]==b[j-1]){
-            dp[i][j] = dp[i-1][j-1] + 1;
+        if(dp[i][j]!=-1){
+            return dp[i][j];
+        }
+        int ans=0;
+        if(a[i]==b[j]){
+            ans = 1+subs(a,b,i+1,j+1,dp);
         }
         else{
-            dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+            ans = max(subs(a,b,i+1,j,dp),subs(a,b,i,j+1,dp));
         }
-        }
+        return dp[i][j]=ans;
     }
-    return dp[n][m];
+    int longestCommonSubsequence(string text1, string text2) {
+        vector<vector<int>> dp(text1.length(), vector<int>(text2.length(),-1));
+        return subs(text1, text2,0,0,dp);
     }
 };
