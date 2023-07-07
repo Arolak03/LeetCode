@@ -3,7 +3,7 @@ public:
     int solve(string a, int k,char c){
          int i=0;
         int j=0;
-        int cnt=0;
+        int cnt=0; // jo change kr skte h 
         int n=a.size();
         int ans=0;
           while(j<n){
