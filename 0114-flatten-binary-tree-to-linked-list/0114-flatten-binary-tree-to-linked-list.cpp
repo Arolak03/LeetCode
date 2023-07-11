@@ -24,9 +24,15 @@ public:
                }
                pred->right = curr->right;
                curr->right=curr->left;
-               curr->left=NULL;
+               // curr->left=NULL;
             }
         curr=curr->right;
+        }
+        //curr k left 
+        curr=root;
+        while(curr!=NULL){
+            curr->left=NULL;
+            curr=curr->right;
         }
     }
 };
