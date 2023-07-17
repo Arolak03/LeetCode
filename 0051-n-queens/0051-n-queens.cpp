@@ -54,9 +54,9 @@ public:
         vector<vector<string>> ans;
         vector<string> board(n);
         string s(n,'.');
-        for(int i=0;i<n;i++){
+      for(int i=0;i<n;i++){
             board[i]=s;
-        }
+        }  
 
         solve(0,board,ans,n);
         return ans;
