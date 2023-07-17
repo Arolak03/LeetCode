@@ -49,7 +49,7 @@ public:
     
     // ... (isSafe and solve functions remain the same)
 
-    int solveSudoku(vector<vector<char>>& board) {
+    bool solveSudoku(vector<vector<char>>& board) {
         bool solutionFound = solve(board);
         if (solutionFound) {
             return 1;
