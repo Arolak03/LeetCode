@@ -1,35 +1,39 @@
 class Solution {
 public:
-    bool isSafe(int row, int col, vector<vector<char>>& board, char val) {
-        for (int i = 0; i < 9; i++) {
-            // Check row
-            if (board[i][col] == val) {
+    
+    bool isSafe(int row, int col, vector<vector<char>>& board, char val){
+        for(int i=0;i<9;i++){
+            //row
+            if(board[i][col]==val){
                 return false;
             }
-            // Check column
-            if (board[row][i] == val) {
+            if(board[row][i]==val){
                 return false;
             }
-            // Check 3x3 box
-            if (board[3 * (row / 3) + i / 3][3 * (col / 3) + i % 3] == val) {
+            if(board[3*(row/3)+i/3][3*(col/3)+i%3]==val){
                 return false;
             }
         }
         return true;
     }
-
-    bool solve(vector<vector<char>>& board) {
-        for (int row = 0; row < 9; row++) {
-            for (int col = 0; col < 9; col++) {
-                if (board[row][col] == '.') {
-                    for (int i = 1; i <= 9; i++) {
+    
+    bool solve(vector<vector<char>>& board){
+        int n = board[0].size();
+        for(int row=0;row<n;row++){
+            for(int col=0;col<n;col++){
+                if(board[row][col]=='.'){
+                    for(int i=1;i<=9;i++){
                         char val = i + '0';
-                        if (isSafe(row, col, board, val)) {
-                            board[row][col] = val;
-                            if (solve(board)) {
+                        if(isSafe(row,col,board,val)){
+                            board[row][col]=val;
+                            //recursion
+                            bool moreSol = solve(board);
+                            if(moreSol){
                                 return true;
-                            } else {
-                                board[row][col] = '.';
+                            }
+                            else{
+                                //backtrack
+                                board[row][col]='.';
                             }
                         }
                     }
@@ -39,7 +43,6 @@ public:
         }
         return true;
     }
-
     void solveSudoku(vector<vector<char>>& board) {
         solve(board);
     }
