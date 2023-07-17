@@ -43,7 +43,20 @@ public:
         }
         return true;
     }
-    void solveSudoku(vector<vector<char>>& board) {
-        solve(board);
+    // void solveSudoku(vector<vector<char>>& board) {
+    //     solve(board);
+    // }
+    
+    // ... (isSafe and solve functions remain the same)
+
+    int solveSudoku(vector<vector<char>>& board) {
+        bool solutionFound = solve(board);
+        if (solutionFound) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
+
+
 };
