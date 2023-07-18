@@ -25,9 +25,8 @@ public:
     }
 
     int maxValue(vector<vector<int>>& events, int k) {
-        sort(events.begin(), events.end(), [](const vector<int>& a, const vector<int>& b) {
-            return a[0] < b[0];
-        });
+        sort(events.begin(), events.end());
+    
 
         // Initialize dp with -1
         vector<vector<int>> dp(events.size(), vector<int>(k + 1, -1));
