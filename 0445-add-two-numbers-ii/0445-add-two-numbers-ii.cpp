@@ -29,7 +29,7 @@ class Solution {
         if(head==NULL){
             head=temp;
             tail=temp;
-            return ;
+            // return ;
         }
         //not null
         else{
