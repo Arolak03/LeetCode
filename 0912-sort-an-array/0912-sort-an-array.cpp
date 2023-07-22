@@ -35,6 +35,7 @@ public:
         while(len2>index2){
             nums[k3++]=sec[index2++];
         }
+        f.clear();sec.clear();
         
     }
     
