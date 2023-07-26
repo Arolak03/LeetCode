@@ -5,7 +5,8 @@ public:
         int n =dist.size();
         for(int i=0;i<n-1;i++){
             double time = (double)dist[i]/(double)speed;
-            t+=ceil(time);
+            t+=time;
+            t=ceil(t);
         }
         // for last value;
         t+=(double)dist[n-1]/(double)speed;
