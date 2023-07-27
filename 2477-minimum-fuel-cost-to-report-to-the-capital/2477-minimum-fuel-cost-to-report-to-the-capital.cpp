@@ -10,8 +10,8 @@ public:
                 count+=dfs(child,adj,vis,seats);
             }
         }
-        long long x = (count/seats);
-        if(count%seats)x++;
+        long long x = ceil((double)count/seats);
+        // if(count%seats)x++;
         if(node!=0){
             ans+=x;
         }
