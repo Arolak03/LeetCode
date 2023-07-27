@@ -4,7 +4,7 @@ public:
     long long dfs(int node,vector<vector<int>>& adj, vector<bool>& vis,int seats){
         // node ko vis
         vis[node]=true;
-        int count=1;
+        long long count=1;
         for(auto child: adj[node]){
             if(!vis[child]){
                 count+=dfs(child,adj,vis,seats);
