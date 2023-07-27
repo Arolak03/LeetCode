@@ -24,11 +24,9 @@ public:
         if (roads.size() == 0) {
             return 0;
         }
-        int n = 0;
-        for (auto road : roads) {
-            n = max(n, max(road[0], road[1]));
-        }
-        n++; // Increment n to get the number of nodes in the graph
+        int n = roads.size()+1;
+        
+        // n++; // Increment n to get the number of nodes in the graph
         vector<vector<int>> adj(n);
         vector<bool> vis(n, false);
         for (int i = 0; i < roads.size(); i++) {
