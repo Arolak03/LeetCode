@@ -1,22 +1,32 @@
+#include <cmath>
+
 class Solution {
 public:
-double operation(int a , int b ,  vector<vector<double>> &dp){
-    if(a <= 0 && b <= 0) return 0.5;
-    if(b <= 0) return 0;
-    if(a <= 0) return 1;
-    if(dp[a][b] != -1) return dp[a][b];
+    double solve(int n, int m, vector<vector<double>>& dp ) {
+ if(n <= 0 && m <= 0) return 0.5;
+    if(m <= 0) return 0;
+    if(n <= 0) return 1;
+        if(dp[n][m]!=-1){
+            return dp[n][m]; 
+        }
+        
+       double ans = 0;
+        ans+=solve(n-100,m,dp);
+        ans+=solve(n-75,m-25,dp);
+        ans+=solve(n-50,m-50,dp);
+        ans+=solve(n-25,m-75,dp);
+        return dp[n][m]=ans * 0.25;
+    }
+    
 
-    double ans =0;
-    ans += operation(a-100,b,dp); 
-    ans += operation(a-75,b-25,dp); 
-    ans += operation(a-50,b-50,dp); 
-    ans += operation(a-25,b-75,dp); 
-    return dp[a][b] = ans*0.25;
-}
     double soupServings(int n) {
-        if(n>10000) return 1;
-        vector<vector<double>> dp(n+1,vector<double>(n+1,-1));
-        return operation(n,n,dp);
-
+        // Round up n to the nearest multiple of 25 to avoid overflow in recursion
+        if(n>10000){
+            return 1;
+        } 
+        // n = ceil((double)n / 25);
+        vector<vector<double>> dp(n+1, vector<double>(n+1,-1));
+       
+        return solve(n,n,dp);
     }
 };
