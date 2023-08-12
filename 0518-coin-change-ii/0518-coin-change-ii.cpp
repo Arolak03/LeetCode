@@ -1,31 +1,22 @@
 class Solution {
 public:
-
-    int solve(int amount, vector<int>& coins, int index, vector<vector<int>>& dp){
-        int n =coins.size();
-
-        if(amount==0){
-            return 1;
-        }
-        if(index>=n){
-            return 0;
-        }
-        if(dp[index][amount]!=-1){
-            return dp[index][amount];
-        }
-        //include
-        int ways;         
-        if(coins[index]>amount){
-            return ways = solve(amount,coins,index+1,dp);
-        }
-        //1 way
-        ways = solve(amount-coins[index],coins,index,dp)+solve(amount,coins,index+1,dp);
-        return dp[index][amount]=ways;
-        
-    }
     int change(int amount, vector<int>& coins) {
-        int n= coins.size();
-        vector<vector<int>> dp(n+1, vector<int>(amount+1,-1));
-        return solve(amount,coins,0,dp);
+        int n =coins.size();
+        vector<vector<int>> dp(n+1, vector<int>(amount+1));
+        //if amount is 0 retuirn 1
+        for(int i=0;i<n;i++){
+            dp[i][0]=1;
+        }
+        //iamount
+        for(int index=n-1;index>=0;index--){
+            for(int j=1;j<=amount;j++){
+                if(coins[index]>j){
+                    dp[index][j]=dp[index+1][j];
+                }
+                
+                else {dp[index][j]=dp[index][j-coins[index]]+dp[index+1][j];}
+            }
+        }
+        return dp[0][amount];
     }
 };
