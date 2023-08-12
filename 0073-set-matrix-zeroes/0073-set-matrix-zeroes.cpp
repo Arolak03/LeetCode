@@ -7,12 +7,14 @@ public:
         vector<pair<int, int>> zeros; // To store the positions of zeros
         
         // Find the positions of zero elements
-        for (int i = 0; i < m; ++i) {
-            for (int j = 0; j < n; ++j) {
-                if (matrix[i][j] == 0) {
-                    zeros.push_back(make_pair(i, j));
+        for (int i = 0; i < m*n; ++i) {
+            int row=i/n;
+            int col =i%n;
+        
+                if (matrix[row][col] == 0) {
+                    zeros.push_back(make_pair(row, col));
                 }
-            }
+            
         }
         
         // Set entire rows and columns to zero based on the stored positions
