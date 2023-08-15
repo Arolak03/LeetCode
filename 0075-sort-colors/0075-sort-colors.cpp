@@ -3,15 +3,21 @@ public:
     
     void sorting(vector<int>& nums){
         int n = nums.size();
-        for(int i=0;i<n-1;i++){
-            for(int j=i+1;j<n;j++){
-                int temp = nums[i];
-                if(nums[i]>nums[j]){
-                    nums[i]=nums[j];
-                    nums[j]=temp;
-                }
+       int high = n-1;int low=0;int mid=0;
+        while(high>=mid){
+            if(nums[mid]==2){
+                swap(nums[high],nums[mid]);
+                high--;
             }
-            
+            else if(nums[mid]==0){
+                swap(nums[mid],nums[low]);
+                low++;
+                mid++;
+            }
+            else{
+                mid++;
+                // low++
+            }
         }
         // return nums;
     }
