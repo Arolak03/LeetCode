@@ -14,13 +14,24 @@ public:
         // }
         // return element;
         // int element=-1;
-        sort(nums.begin(),nums.end());
+        // sort(nums.begin(),nums.end());
+        // for(int i=0;i<n;i++){
+        //     if(nums[i]==nums[i+1]){
+        //         element=nums[i];
+        //         break;
+        //     }
+        // }
+        // return element;
+        vector<int>freq (n+1);
+     
         for(int i=0;i<n;i++){
-            if(nums[i]==nums[i+1]){
-                element=nums[i];
-                break;
+            if(freq[nums[i]]==0){
+                freq[nums[i]]+=1;
+            }
+            else{
+                return nums[i];
             }
         }
-        return element;
+        return 0;
     }
 };
