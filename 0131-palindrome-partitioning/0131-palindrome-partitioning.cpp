@@ -9,7 +9,11 @@ public:
         }
         
         for (int i = index; i < n; ++i) {
-            string sub = s.substr(index, i - index + 1);
+            // string sub = s.substr(index, i - index + 1);
+            string sub="";
+            for(int j=index;j<=i;j++){
+                sub+=s[j];
+            }
             if (isPalindrome(sub)) {
                 op.push_back(sub);
                 solve(s, ans, op, i + 1);
