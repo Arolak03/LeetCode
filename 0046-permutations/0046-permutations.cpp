@@ -1,7 +1,7 @@
 class Solution {
 public:
     
-    void solve(vector<vector<int>>& ans, vector<int>& op, int index, vector<int>& nums){
+    void solve(vector<vector<int>>& ans, int index, vector<int>& nums){
         if(index==nums.size()){
             ans.push_back(nums);
             return;
@@ -17,7 +17,7 @@ public:
             //     op.pop_back();
             // }
             swap(nums[i],nums[index]);
-            solve(ans,op,index+1,nums);
+            solve(ans,index+1,nums);
             swap(nums[i],nums[index]);
         }
     }
@@ -27,12 +27,12 @@ public:
     vector<vector<int>> permute(vector<int>& nums) {
         vector<vector<int>> ans;
         int n =nums.size();
-        vector<int> op;
+        // vector<int> op;
         // int freq[n];
         // for(int i=0;i<n;i++){
             // freq[i]=0;
         // }
-        solve(ans,op,0, nums);
+        solve(ans,0, nums);
         return ans;
     }
 };
