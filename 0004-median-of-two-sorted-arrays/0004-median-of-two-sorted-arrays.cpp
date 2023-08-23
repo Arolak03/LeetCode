@@ -1,61 +1,34 @@
 class Solution {
 public:
-    
-    double min(vector<int>& nums1, vector<int>& nums2){
-        int m = nums1.size();
-        int n =nums2.size();
-        int k =m+n;
-        vector<int> ans(k);
-        int p=0;
-        int q=0;
-        
-        for(int i=0;i<k;i++){
-        if(p<m  && q<n){
-            if(nums1[p]<=nums2[q]){
-                ans[i]=nums1[p];
-                p++; 
-            }
-            else if(nums1[p]>nums2[q]){
-                ans[i]=nums2[q];
-                q++; 
-            }
-        }
-        else if(p<m){
-            ans[i]=nums1[p];
-            p++;
-        }
-        else if(q<n){
-            ans[i]=nums2[q];
-            q++;
-        }
-            
-        
-    }
-        // for(int i=0;i<ans.size();i++){
-        //     cout<<ans[i];
-        // }
-        double median = 0.00000;
-        if(k==2){
-            median=(ans[1]+ans[0])/2.0;
-        }
-        else if(k%2==0){
-            median = (ans[(k/2)-1] + ans[(k/2)]) / 2.0;
-
-            }
-        else if(k%2!=0) {
-            median = ans[(k-1)/2.0];
-        }
-        return median;
-    }
-    
-    
     double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        if (nums1.size() > nums2.size()) return findMedianSortedArrays(nums2, nums1);
         
-       
-        double median=min(nums1, nums2);
-        return median;
+        int n1 = nums1.size();
+        int n2 = nums2.size();
         
-        
-        
+        int low = 0;
+        int high = n1;
+        while (low <= high) {
+            int cut1 = (high + low) >> 1;
+            int cut2 = (n1 + n2 + 1) / 2 - cut1;
+            
+            int l1 = cut1 == 0 ? INT_MIN : nums1[cut1 - 1];
+            int l2 = cut2 == 0 ? INT_MIN : nums2[cut2 - 1];
+            int r1 = cut1 == n1 ? INT_MAX : nums1[cut1];
+            int r2 = cut2 == n2 ? INT_MAX : nums2[cut2];
+            
+            if (l1 <= r2 && l2 <= r1) {
+                if ((n1 + n2) % 2 == 0) {
+                    return (max(l1, l2) + min(r1, r2)) / 2.0;
+                } else {
+                    return max(l1, l2);
+                }
+            } else if (l1 > r2) {
+                high = cut1 - 1;
+            } else {
+                low = cut1 + 1;
+            }
+        }
+        return 0.0;
     }
 };
