@@ -1,23 +1,27 @@
 class Solution {
 public:
-    int singleNonDuplicate(vector<int>& nums) {
-        int n = nums.size();
-        int index=-1;
-        if(n==1){
-            return nums[0];
+    int singleNonDuplicate(vector<int>& arr) {
+         int n = arr.size(); //size of the array.
+    if (n == 1) return arr[0];
+
+    for (int i = 0; i < n; i++) {
+
+        //Check for first index:
+        if (i == 0) {
+            if (arr[i] != arr[i + 1])
+                return arr[i];
         }
-        for(int i=1;i<n;i++){
-            if(nums[i]==nums[i-1] || nums[i]==nums[i+1]){
-                // i+=2;
-            }
-            else{
-                index=nums[i];
-                break;
-            }
+        //Check for last index:
+        else if (i == n - 1) {
+            if (arr[i] != arr[i - 1])
+                return arr[i];
         }
-        if(index==-1){
-            index=nums[0];
+        else {
+            if (arr[i] != arr[i - 1] && arr[i] != arr[i + 1])
+                return arr[i];
         }
-        return index;
+    }
+    
+    return -1;
     }
 };
