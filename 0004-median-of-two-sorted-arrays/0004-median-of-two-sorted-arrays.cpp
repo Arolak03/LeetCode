@@ -31,9 +31,9 @@ public:
             
         
     }
-        for(int i=0;i<ans.size();i++){
-            cout<<ans[i];
-        }
+        // for(int i=0;i<ans.size();i++){
+        //     cout<<ans[i];
+        // }
         double median = 0.00000;
         if(k==2){
             median=(ans[1]+ans[0])/2.0;
