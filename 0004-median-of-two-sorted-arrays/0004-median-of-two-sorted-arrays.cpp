@@ -38,11 +38,11 @@ public:
         if(k==2){
             median=(ans[1]+ans[0])/2.0;
         }
-        else if(k%2==0 && k!=2){
+        else if(k%2==0){
             median = (ans[(k/2)-1] + ans[(k/2)]) / 2.0;
 
             }
-        else if(k%2!=0 && k!=2) {
+        else if(k%2!=0) {
             median = ans[(k-1)/2.0];
         }
         return median;
