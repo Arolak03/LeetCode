@@ -17,6 +17,7 @@ public:
             return op;
         }
         queue<TreeNode*> q;
+        stack<vector<int>> s;
         q.push(root);
         while(!q.empty()){
             int size = q.size();
@@ -33,9 +34,14 @@ public:
                 }
                 ans.push_back(temp->val);
             }
-            op.push_back(ans);
+            
+            s.push(ans);
         }
-        reverse(op.begin(), op.end());
+        while(!s.empty()){
+            op.push_back(s.top());
+            s.pop();
+        }
+        // reverse(op.begin(), op.end());
         return op;
         
     }
