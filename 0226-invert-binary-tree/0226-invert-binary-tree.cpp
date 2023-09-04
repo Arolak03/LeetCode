@@ -41,8 +41,9 @@ public:
         root->left=root->right;
         root->right=temp;
        
-        invertTree(root->left);
+       
         invertTree(root->right);
+         invertTree(root->left);
         return root;
         
     }
