@@ -11,34 +11,30 @@
  */
 class Solution {
 public:
-    
-    void mapping(vector<int>& in, map<int, int> &mp,int n){
-        for(int i=0;i<n;i++){
-            mp[in[i]]=i;
-            }
-    }
-    TreeNode* solve(vector<int>& post, vector<int>& in, int& index, int inStart, int inEnd, int n,map<int, int>& mp){
-        if(index<0 || inStart>inEnd){
-            return NULL;
+    void mapping(map<int, int>& mpp, vector<int>& inorder){
+        //index wala map bna diya
+        for(int i=0;i<inorder.size();i++){
+            mpp[inorder[i]]=i;
         }
-        // lement kaunsajiski index chahiye
-        int elem = post[index--];
-        TreeNode* root = new TreeNode(elem);
-        //uski position
-        int pos = mp[elem];
-        
-        // ab right call and left call
-        root->right = solve(post,in,index,pos+1,inEnd, n,mp);
-        root->left = solve(post, in, index, inStart, pos-1,n,mp);
-        return root;
     }
+    
+TreeNode* solve(vector<int>& in, vector<int>& post, int inStart, int inEnd, int& index,int n, map<int, int>& mpp) {
+    if (index < 0 || inStart > inEnd) return NULL;
+
+    int elem = post[index--];
+    int pos = mpp[elem];
+    TreeNode* root = new TreeNode(elem);
+    root->right = solve(in, post, pos + 1, inEnd, index,n, mpp);
+    root->left = solve(in, post, inStart, pos - 1, index,n, mpp);
+    return root;
+}
     
     TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
-        int n= postorder.size();
-        map<int, int> mp;
-        mapping(inorder,mp,n);
-        int postOrderIndex = n-1;
-        TreeNode* ans=solve(postorder,inorder,postOrderIndex,0,n-1,n,mp);
-        return ans;
+        map<int ,int> mpp;
+        mapping(mpp, inorder);
+        int n = inorder.size();
+        int index=0;
+        int postOrderIndex=n-1;
+        return solve(inorder, postorder,0, n-1,postOrderIndex, n, mpp);
     }
 };
