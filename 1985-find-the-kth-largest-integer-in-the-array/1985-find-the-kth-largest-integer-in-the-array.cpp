@@ -1,21 +1,23 @@
-class NumStrMinComparator {
-public:
-    bool operator() (string &b, string &a) { // Please note, I swap position of `a` and `b` here!
-        if (a.size() != b.size()) return a.size() < b.size();
-        return  a < b;
+class compare{
+    public:
+    bool operator()(string& b, string& a){
+        if(a.size()!=b.size())return a.size()<b.size();
+            return a<b;
     }
 };
 
 class Solution {
 public:
+    
+    
+    
     string kthLargestNumber(vector<string>& nums, int k) {
-        priority_queue<string, vector<string>, NumStrMinComparator> minHeap;
-        for (string& num : nums) {
-            minHeap.push(num);
-            if (minHeap.size() > k) {
-                minHeap.pop();
-            }
+        priority_queue<string, vector<string>, compare> pq;
+        for(string& i: nums){
+            pq.push(i);
+            if(pq.size()>k)pq.pop();
         }
-        return minHeap.top();
+        return pq.top();
+    
     }
 };
