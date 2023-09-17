@@ -8,16 +8,12 @@ class compare{
 
 class Solution {
 public:
-    
-    
-    
     string kthLargestNumber(vector<string>& nums, int k) {
         priority_queue<string, vector<string>, compare> pq;
-        for(string& i: nums){
+        for(auto& i: nums){
             pq.push(i);
             if(pq.size()>k)pq.pop();
         }
         return pq.top();
-    
     }
 };
