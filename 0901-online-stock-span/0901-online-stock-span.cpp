@@ -1,10 +1,10 @@
 class StockSpanner {
 public:
     
-    vector<int> ans;
-    vector<int> prices;
-    unordered_map<int, int>mpp;
-    stack<int> s;
+//     vector<int> ans;
+//     vector<int> prices;
+//     unordered_map<int, int>mpp;
+//     stack<int> s;
     stack<pair<int, int>>st;
     StockSpanner() {
         
