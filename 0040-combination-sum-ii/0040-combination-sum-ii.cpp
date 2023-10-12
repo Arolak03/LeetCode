@@ -1,52 +1,37 @@
 class Solution {
 public:
-    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
-        vector<vector<int>> results;
-        vector<int> comb;
-        
-        unordered_map<int, int> counter;
-        for (int candidate : candidates) {
-            if (counter.find(candidate) != counter.end())
-                counter[candidate]++;
-            else
-                counter[candidate] = 1;
-        }
-
-        vector<pair<int, int>> counterList;
-        for (auto entry : counter) {
-            counterList.push_back(make_pair(entry.first, entry.second));
-        }
-
-        backtrack(comb, target, 0, counterList, results);
-        return results;
-    }
-
-    void backtrack(vector<int>& comb,
-                   int remain, int curr,
-                   vector<pair<int, int>>& counter,
-                   vector<vector<int>>& results) {
-
-        if (remain <= 0) {
-            if (remain == 0) {
-                results.push_back(comb);
-            }
+    void solve(vector<int>& candidates, int target, vector<vector<int>>& ans, vector<int>& op, int index) {
+        if (target == 0) {
+            ans.push_back(op);
             return;
         }
+        if (index >= candidates.size() || target < 0)
+            return;
 
-        for (int nextCurr = curr; nextCurr < counter.size(); ++nextCurr) {
-            int candidate = counter[nextCurr].first;
-            int freq = counter[nextCurr].second;
+        for (int i = index; i < candidates.size(); i++) {
+            if (i > index && candidates[i] == candidates[i - 1]) {
+                continue; // Skip duplicates
+            } 
+            if (candidates[i]>target) {
+                break; // Skip duplicates
+            } 
 
-            if (freq <= 0)
-                continue;
-
-            comb.push_back(candidate);
-            counter[nextCurr].second--;
-
-            backtrack(comb, remain - candidate, nextCurr, counter, results);
-
-            counter[nextCurr].second++;
-            comb.pop_back();
+            op.push_back(candidates[i]);
+            solve(candidates, target - candidates[i], ans, op, i + 1);
+            op.pop_back();
         }
+    }
+
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        vector<vector<int>> ans;
+        vector<int> op;
+
+        sort(candidates.begin(), candidates.end()); // Sort the candidates
+        solve(candidates, target, ans, op, 0);
+
+        // set<vector<int>> uniqueCombinations(ans.begin(), ans.end());
+        // ans.assign(uniqueCombinations.begin(), uniqueCombinations.end());
+
+        return ans;
     }
 };
