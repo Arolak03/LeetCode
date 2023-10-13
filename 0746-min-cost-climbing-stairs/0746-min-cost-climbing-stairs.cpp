@@ -54,15 +54,28 @@ public:
         return dp[index]=mini1;
     }
     
+    int solveTab(vector<int>& arr){
+        int n = arr.size();
+        vector<int> dp(arr.size()+1,0);
+        dp[0]=arr[0];
+        dp[1]=arr[1];
+        for(int i=2;i<arr.size();i++){
+            dp[i]=min(arr[i]+dp[i-1],arr[i]+dp[i-2]);
+        }
+        return min(dp[n-1],dp[n-2]);
+    }
+    
     int minCostClimbingStairs(vector<int>& cost) {
         int n= cost.size();
         // vector<int>dp (n+1,-1);
         // int ans=min(mincost2(cost,n-1,dp),mincost2(cost,n-2,dp));
         // return ans;
-        vector<int> dp1(cost.size()+1,-1);
-        vector<int> dp2(cost.size()+1,-1);
-        int ans1=solve(cost,1,dp1);
-        int ans2=solve(cost,0,dp2);
-        return min(ans1,ans2);
+        // vector<int> dp1(cost.size()+1,-1);
+        // vector<int> dp2(cost.size()+1,-1);
+        // int ans1=solve(cost,1,dp1);
+        // int ans2=solve(cost,0,dp1);
+        // return min(ans1,ans2);
+        return solveTab(cost);
     }
+    
 };
