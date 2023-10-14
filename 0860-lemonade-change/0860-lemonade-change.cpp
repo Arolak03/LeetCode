@@ -1,5 +1,10 @@
 class Solution {
 public:
+    
+//     void solve(vector<int>& bills,int index, unordered_map<int, int>& mpp){
+//         if(index>=bills.size()) 
+        
+//     }
     bool lemonadeChange(vector<int>& bills) {
 //         int count5=0;
 //         int count10=0;
@@ -24,8 +29,13 @@ public:
         for(int i=0;i<bills.size();i++){
             if(bills[i]==5)mpp[5]++;
             if(bills[i]==10){
+                if(mpp[5]>0){
                 mpp[10]++;
                 mpp[5]--;
+                }
+                else{
+                    return false;
+                }
             }
             if(bills[i]==20){
                 if(mpp[10]>0){
@@ -40,6 +50,7 @@ public:
             
         }
         return true;
+        // return solve(bills,0,mpp);
         
     }
 };
