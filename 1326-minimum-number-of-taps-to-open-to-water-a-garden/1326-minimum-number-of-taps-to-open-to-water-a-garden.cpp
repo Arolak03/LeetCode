@@ -62,3 +62,7 @@ public:
 };
 //arr m 0,3 0,5  0,3,  0,4   0,4   0,5
 //uske baad 
+//1.max ranges dhoondi i chlaya tap+1 and end ko puraana maxfarr k equal rkha, 
+//2.i bhadaya jbtk wo first k end tk h and agr maxfarR ko max right that is arr[i] k hisaab s change kiya
+//3.if end and maxFarR same hojaye mtlb ko last tk phuche hi na to -1 dedo
+//end<=n isliye nhi kiya kyunki maybe maxfarR bhi n k qualho and end to hoga isse but ans is right still y glt dega
