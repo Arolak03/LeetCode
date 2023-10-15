@@ -40,7 +40,7 @@ public:
         vector<int> arr(n+1,0);
         // index is start and value is endpoint
         for(int i=0;i<ranges.size();i++){
-            if(ranges[i]==0)continue;
+            // if(ranges[i]==0)continue;
             int left = max(0,i-ranges[i]);
             arr[left]=max(arr[left],ranges[i]+i);
         }
@@ -60,3 +60,5 @@ public:
 
     }
 };
+//arr m 0,3 0,5  0,3,  0,4   0,4   0,5
+//uske baad 
