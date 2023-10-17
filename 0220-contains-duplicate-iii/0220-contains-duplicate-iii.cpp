@@ -1,33 +1,19 @@
 class Solution {
 public:
-    bool containsNearbyAlmostDuplicate(vector<int>& nums, int indexDiff, int valueDiff) {
-    int n = nums.size();
-     set<int>ss(nums.begin(),nums.end());
-        if(valueDiff==0 && ss.size()==nums.size())return false;
-    for (int i = 0; i < n; i++) {
-        for (int j = i + 1; j < n && j <= i + indexDiff; j++) {
-            if (abs(static_cast<long long>(nums[i]) - nums[j]) <= valueDiff) {
+    bool containsNearbyAlmostDuplicate(vector<int>& nums, int k, int t) {
+        if (t < 0 || k <= 0) return false;
+        int n = nums.size();
+        multiset<long long> window;
+
+        for (int right = 0; right < n; right++) {
+            if (right > k) window.erase(nums[right - k - 1]);
+            auto safe = window.lower_bound(static_cast<long long>(nums[right]) - t);
+            if (safe != window.end() && *safe <= static_cast<long long>(nums[right]) + t) {
                 return true;
             }
+            window.insert(nums[right]);
         }
-    }
 
-    return false;
-
-        
-    //   unordered_map<int, int> mpp;
-    //   for (int i = 0; i < n; i++) {
-    //       for(int j=0;j<=valueDiff;j++){
-    //       auto iter = mpp.find(nums[i] + j);
-    //       if (iter != mpp.end()) {
-    //          int index = iter->second;
-    //          if (abs(i - index) <= indexDiff) {
-    //             return true;
-    //          }  
-    //       }
-    //       mpp[nums[i] + j] = i;
-    //       }
-    // }
-    // return false;
+        return false;
     }
 };
