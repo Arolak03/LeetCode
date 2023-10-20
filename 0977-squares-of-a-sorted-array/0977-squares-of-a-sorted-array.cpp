@@ -1,10 +1,27 @@
 class Solution {
 public:
     vector<int> sortedSquares(vector<int>& nums) {
-        multiset<int> ans;
-        vector<int> mine;
-        for(int i=0;i<nums.size();i++)ans.insert(nums[i]*nums[i]);
-        for(auto it: ans)mine.push_back(it);
-        return mine;
+        int n = nums.size();
+        vector<int> result(n);
+
+        int left = 0;
+        int right = n - 1;
+        int idx = n - 1;
+
+        while (left <= right) {
+            int leftSquare = nums[left] * nums[left];
+            int rightSquare = nums[right] * nums[right];
+
+            if (leftSquare > rightSquare) {
+                result[idx] = leftSquare;
+                left++;
+            } else {
+                result[idx] = rightSquare;
+                right--;
+            }
+            idx--;
+        }
+
+        return result;
     }
 };
