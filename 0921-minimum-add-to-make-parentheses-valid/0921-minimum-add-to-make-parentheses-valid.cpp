@@ -1,30 +1,20 @@
 class Solution {
 public:
     int minAddToMakeValid(string s) {
-        stack<char> st;
-        int count=0;
-        int i=0;
-        int n = s.length();
-        while(i<n){
-            while(s[i]=='('){
-                st.push(s[i++]);
-                cout<<i<<endl;
+        int n =s.length();
+        int ans=0;
+        int reqd=0;
+        for(int i=0;i<n;i++){
+            if(s[i]=='('){
+                reqd++;
             }
-            if(st.empty() && s[i]==')'){
-                count++;
-                i++;
-            }
-            if(s[i]==')' && !st.empty()){
-                st.pop();
-                i++;
+            else{
+                reqd--;
+            }if(reqd==-1){
+                ans++;
+                reqd++;
             }
         }
-        while(!st.empty()){
-            st.pop();
-            count++;
-        }
-           
-           
-        return count;
+        return ans+reqd;
     }
 };
