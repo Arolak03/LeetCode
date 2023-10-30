@@ -1,41 +1,32 @@
 class Solution {
-private:
-    int bs(vector<int> nums, int left, int right, int target) {
-        while (left <= right) {
-            int mid = (left + right) / 2;
-            if (nums[mid] == target) {
-                return mid;
-            } else if (nums[mid] > target) {
-                right = mid-1;
-            } else {
-                left = mid+1;
+public:
+    int search(vector<int>& nums, int target) {
+        int n =nums.size();
+        int l=-0;
+        int r=n-1;
+        while(l<=r){
+            int mid=l+(r-l)/2;
+            // mid hi ho
+            if(nums[mid]==target)return mid;
+            //kaunsa sorted 
+            if(nums[mid]>=nums[l]){
+                //left sorted
+                //target kaunse half m;
+                if(nums[mid]>=target && nums[l]<=target){
+                    r=mid-1;
+                }
+                else l=mid+1;
+            }
+            //right sorted;
+            else{
+                if(target>=nums[mid] && target<=nums[r]){
+                    l=mid+1;
+                }
+                else {
+                    r=mid-1;
+                }
             }
         }
         return -1;
-    }
-
-public:
-    int search(vector<int>& nums, int target) {
-        int left = 0;
-        int n = nums.size();
-        int right = n - 1;
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
-            if (nums[mid] > nums[n-1]) {
-                // Right part is rotated, move to the right
-                left = mid + 1;
-            } else {
-                right = mid-1;
-            }
-        }
-        // Now 'left' is the pivot point
-
-        int ans = bs(nums, 0, left - 1, target);
-        if (ans != -1) {
-            return ans;
-        }
-
-        // Return the result of the second binary search directly
-        return bs(nums, left, n - 1, target);
     }
 };
