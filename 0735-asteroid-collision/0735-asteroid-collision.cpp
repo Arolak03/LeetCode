@@ -1,40 +1,29 @@
 class Solution {
 public:
     vector<int> asteroidCollision(vector<int>& asteroids) {
-        stack<int> asteroidStack;
-        
-        for(int asteroid: asteroids){
-            while(!asteroidStack.empty() && asteroid<0 && asteroidStack.top()>0){
-                int diff = asteroid + asteroidStack.top();
-                // if positive then asteroid bada
-                if(diff <0){
-                    asteroidStack.pop();
-                    // break;
-                    // asteroidStack.push(asteroid);
+        stack<int>s;
+        int n =asteroids.size();
+        for(int i=0;i<n;i++){
+            while(!s.empty() && s.top()*asteroids[i]<0 && s.top()>0){
+                if(abs(s.top())>abs(asteroids[i])){
+                    asteroids[i]=0;
                 }
-                else if(diff >0){
-                    asteroid =0;
-                    break;
+                else if(abs(asteroids[i])>abs(s.top())){
+                    s.pop();
                 }
-                else{
-                    asteroid=0;
-                    asteroidStack.pop();
+                else if(abs(s.top())==abs(asteroids[i])){
+                    s.pop();
+                    asteroids[i]=0;
                 }
             }
-            if(asteroid!=0){
-                asteroidStack.push(asteroid);
-            }
+            if(asteroids[i]!=0) s.push(asteroids[i]);
         }
-            // asteroid left daalege
-            vector<int> arr(asteroidStack.size());
-            int n = asteroidStack.size()-1;
-            while(!asteroidStack.empty()){
-                arr[n--]=asteroidStack.top();
-                asteroidStack.pop();
-            }
-            
-            
-        
-        return arr;
+        vector<int> ans;
+       while(!s.empty()){
+           if(s.top()!=0)ans.push_back(s.top());
+           s.pop();
+       }
+       reverse(ans.begin(),ans.end());
+       return ans;
     }
 };
