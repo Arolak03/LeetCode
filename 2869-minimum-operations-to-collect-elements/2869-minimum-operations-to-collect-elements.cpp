@@ -1,7 +1,7 @@
 class Solution {
 public:
     int minOperations(vector<int>& nums, int k) {
-        unordered_map<int, int> mpp;
+        map<int, int> mpp;
         for(int i=1;i<=k;i++){
             mpp[i]=i;
         }
