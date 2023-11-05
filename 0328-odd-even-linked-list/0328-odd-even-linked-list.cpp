@@ -12,20 +12,21 @@ class Solution {
 public:
     ListNode* oddEvenList(ListNode* head) {
       
-        if(!head)return NULL;
-        ListNode* odd=head;
-        ListNode* even=head->next;
-        ListNode* even2=even;
-        // mne new node nhi bnaayo h khaali pointer k track rkha h 
-        
-        while(even && even->next){
-            odd->next=even->next;
-            odd=odd->next;
-            even->next=odd->next;
-            even=even->next;
+     ListNode l1(0), l2(0);
+        ListNode* p1 = &l1;
+        ListNode* p2 = &l2;
+
+        unsigned index = 1;
+        while (head) {
+            if (index++ % 2 == 1)
+                p1 = p1->next = head;
+            else
+                p2 = p2->next = head;
+            head = head->next;
         }
-        
-        odd->next=even2;
-        return head;
+
+        p1->next = l2.next;
+        p2->next = nullptr;
+        return l1.next;
     }
 };
