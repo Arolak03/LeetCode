@@ -11,9 +11,11 @@ public:
     
     vector<vector<string>> groupAnagrams(vector<string>& strs) {
         map<map<char,int>, vector<string>> mpp;
+        //O(n*length of each word)
         for(auto it: strs){
             mpp[solve(it)].push_back(it);
         }
+        
         vector<vector<string>> ans;
         for(auto it: mpp){
             ans.push_back(it.second);
