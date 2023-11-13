@@ -1,17 +1,23 @@
-class Solution { // 12 ms, faster than 9.19%
+class Solution {
 public:
-    int memo[100] = {};
-    int numDecodings(const string& s) {
-        return dp(s, 0);
+    int solve(string& s, int index,vector<int>& dp){
+        if(index>=s.length())return 1;
+        if(dp[index]!=-1)return dp[index];
+        int count=0;
+        
+        if(s[index]!='0')count+=solve(s,index+1,dp);
+        if(index+1<s.length() && (s[index]=='1' || s[index]=='2' && s[index+1]<'7')){
+            count+=solve(s,index+2,dp);
+            // return count;
+        }
+        return dp[index]=count;
     }
-    int dp(const string& s, int i) {
-        if (i == s.size()) return 1;
-        if (memo[i] != 0) return memo[i];
-        int ans = 0;
-        if (s[i] != '0') // Single digit
-            ans += dp(s, i+1);
-        if (i+1 < s.size() && (s[i] == '1' || s[i] == '2' && s[i+1] <= '6')) // Two digits
-            ans += dp(s, i+2);
-        return memo[i] = ans;
+    
+    
+    int numDecodings(string s) {
+        vector<int> dp(s.length()+1,-1);
+        return s.length()!=0? solve(s,0,dp) : 0;
     }
+    
+    
 };
