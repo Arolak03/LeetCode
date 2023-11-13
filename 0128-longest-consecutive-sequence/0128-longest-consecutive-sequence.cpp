@@ -1,23 +1,40 @@
 class Solution {
+  
+    private:
+ int fun1(vector<int>& nums) {
+     
+    std::unordered_set<int> s(nums.begin(),nums.end());
+    int ans = 1;
+
+   while(s.size()>0) {
+       int maxi=1;
+       int ele=*(s.begin());  // TAKE ELEMENT
+       s.erase(ele);
+       int temp=ele-1;
+       while(s.count(temp)){ //LESSER 
+           maxi++;
+           s.erase(temp);
+           temp--;
+       }
+       temp=ele+1;
+        while(s.count(temp)){  //GREATER
+           maxi++;
+           s.erase(temp);
+           temp++;
+       }
+       ans=max(maxi,ans);
+    }
+
+    return ans;
+}
+// void fast(){
+//       std::ios_base::sync_with_stdio(false);
+//     std::cin.tie(nullptr);
+// }
 public:
-    
-    
     int longestConsecutive(vector<int>& nums) {
-        sort(nums.begin(),nums.end());
-        int maxi=1;
-        int n =nums.size();
-        int ans=1;
-        for(int i=0;i<n-1;i++){
-            // int ans=1;
-            if(nums[i]==nums[i+1])continue;
-            if(nums[i]+1==nums[i+1]){
-                ans++;
-            }
-            else ans=1;
-            maxi=max(maxi,ans);
-        }
-        if(n==0)return 0;
-        return maxi;
-        
+        // fast();
+        if(nums.size()==0)return 0;
+        return fun1(nums);
     }
 };
