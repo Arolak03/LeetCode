@@ -13,15 +13,11 @@ class Solution {
 public:
     
     void solve(TreeNode* root, int& ans, int& cnt, int k){
-        // if(root==NULL){
-        //     return;
-        // }
-        // ans.push_back(root->val);
-        // solve(root->left,ans);
-        // solve(root->right,ans);
+        
         if(root==NULL)return;
         
         // as bst
+        //inorderd traversal in bst in aways in sorted manner
         solve(root->left,ans,cnt,k);
         cnt++;
         if(cnt==k){
