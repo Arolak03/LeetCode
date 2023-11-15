@@ -1,29 +1,19 @@
-class Solution {
-public:
-    
-    bool isPalindrome(string& s,int i, int j){
-        if(i>=j)return true;
-        if(s[i]!=s[j])return false;
-        
-        if(isPalindrome(s,i+1,j-1))return true;
-        else return false;
-    }
-    
-    int countSubstrings(string s) {
-        int n =s.length();
-        vector<string> arr;
-        for(int i=0;i<n;i++){
-            string str="";
-            for(int j=i;j<n;j++){
-                str+=s[j];
-                arr.push_back(str);
+class Solution{
+    public:
+    int countSubstrings(string& s) {
+        vector<vector<int>> mem(s.size(), vector<int>(s.size(), -1));
+        int count = 0;
+        for(int i = 0; i < s.size(); ++i) {
+            for(int j = i; j < s.size(); ++j) {
+                count += solve(mem, s, i, j);
             }
         }
-        // for(auto it: arr)cout<<it<<" ";
-        int count=0;
-        for(int i=0;i<arr.size();i++){
-            if(isPalindrome(arr[i],0,arr[i].length()-1))count++;
-        }
         return count;
+    }
+    
+    int solve(vector<vector<int>>& mem, string& s, int i, int j) {
+        if (i >= j) return 1;
+        if (mem[i][j] >= 0) return mem[i][j];
+        return mem[i][j] = s[i] == s[j] ? solve(mem, s, i+1, j-1) : 0;
     }
 };
