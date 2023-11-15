@@ -1,35 +1,25 @@
-bool compareSecondElement(vector<int>& a, vector<int>& b) {
-    return a[1] < b[1];
-}
-
 class Solution {
 public:
-    int solve(vector<vector<int>>& arr){
-                int ans = 0;
-        int k = INT_MIN;
-        
-        for (int i = 0; i < arr.size(); i++) {
-            int x = arr[i][0];
-            int y = arr[i][1];
-            
-            if (x >= k) {
-                // Case 1
-                k = y;
-            } else {
-                // Case 2
+    int eraseOverlapIntervals(vector<vector<int>>& intervals) {
+         int ans=0;
+        int prev=0;
+        // int curr=0;
+        sort(intervals.begin(), intervals.end());
+        int n =intervals.size();
+        for(int curr=1;curr<n;curr++){
+            // overlapping
+            if(intervals[curr][0]<intervals[prev][1]){
                 ans++;
+                if(intervals[curr][1]<=intervals[prev][1]){
+                    prev=curr;
+                    //delete prev
+                }
             }
+            else {
+                prev=curr;
+            }
+            
         }
         return ans;
-    }
-    
-    int eraseOverlapIntervals(vector<vector<int>>& intervals) {
-        sort(intervals.begin(), intervals.end(), compareSecondElement);
-        int ans = 0;
-        int k = INT_MIN;
-        
-       
-        
-        return solve(intervals);
     }
 };
