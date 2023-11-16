@@ -1,68 +1,29 @@
-#include <vector>
-#include <algorithm>
-
 class Solution {
 public:
-//     int solve(vector<pair<int, int>>& arr, int n, int index, vector<pair<int, bool>>& vis) {
-//         if (index >= arr.size())
-//             return 0;
-
-//         // Try including the current tap.
-//         for (int i = arr[index].first; i <= arr[index].second; i++) {
-//             vis[i] = make_pair(i, true);
-//         }
-//         int include = 1 + solve(arr, n, index + 1, vis);
-
-//         // Try excluding the current tap.
-//         for (int i = arr[index].first; i <= arr[index].second; i++) {
-//             vis[i] = make_pair(i, false);
-//         }
-//         int exclude = solve(arr, n, index + 1, vis);
-
-//         return min(include, exclude);
-//     }
-
+    map<pair<int, int>, int>dp;
+    int solve(int n, vector<pair<int, int>>& arr, int index, int maxEnd){
+        if(index>=arr.size()){
+            if(maxEnd>=n)return 0;
+            else return 1e9;
+        }
+        if(maxEnd<arr[index].first)return 1e9;
+        if(dp.find({index,maxEnd})!=dp.end())return dp[{index,maxEnd}];
+        int take=1+solve(n,arr,index+1,max(maxEnd,arr[index].second));
+        int notTake=solve(n,arr,index+1,maxEnd);
+        return dp[{index,maxEnd}]=min(take, notTake);
+    }
+    
     int minTaps(int n, vector<int>& ranges) {
-//         vector<pair<int, int>> arr;
-//         vector<pair<int, bool>> vis(n + 1, make_pair(0, false));
-
-//         for (int i = 0; i < ranges.size(); i++) {
-//             int left = max(0, i - ranges[i]);
-//             int right = min(n, i + ranges[i]);
-//             arr.push_back({left, right});
-//         }
-
-//         sort(arr.begin(), arr.end());
-
-//         int result = solve(arr, n, 0, vis);
-
-//         return (result == INT_MAX) ? -1 : result;
-        vector<int> arr(n+1,0);
-        // index is start and value is endpoint
+        vector<pair<int , int>> arr;;
+        // vector<vector<int>> dp(n+2, vector<int>(n+2,-1));
+        
         for(int i=0;i<ranges.size();i++){
-            // if(ranges[i]==0)continue;
-            int left = max(0,i-ranges[i]);
-            arr[left]=max(arr[left],ranges[i]+i);
+            int start=max(0,i-ranges[i]);
+            int end=min(n,ranges[i]+i);
+            arr.push_back({start,end});
         }
-        int ans=0;
-        int end=0;
-        int maxFarR=0;
-        for(int i=0;end<n && i<arr.size(); end=maxFarR){
-            //tap includes
-            ans++;
-            //sec wala first k end s km hona chahiye and max range
-            while(i<arr.size() && i<=end){
-                maxFarR=max(maxFarR,arr[i++]);
-            }
-            if(end==maxFarR)return -1;
-        }
-        return ans;
-
+        sort(arr.begin(), arr.end());
+        int ans=solve(n,arr, 0, 0);
+        return ans==1e9? -1:ans;
     }
 };
-//arr m 0,3 0,5  0,3,  0,4   0,4   0,5
-//uske baad 
-//1.max ranges dhoondi i chlaya tap+1 and end ko puraana maxfarr k equal rkha, 
-//2.i bhadaya jbtk wo first k end tk h and agr maxfarR ko max right that is arr[i] k hisaab s change kiya
-//3.if end and maxFarR same hojaye mtlb ko last tk phuche hi na to -1 dedo
-//end<=n isliye nhi kiya kyunki maybe maxfarR bhi n k qualho and end to hoga isse but ans is right still y glt dega
