@@ -16,12 +16,12 @@ public:
         if (str[maxi] != str[i]) {
             swap(str[i], str[maxi]);
             // Check if the swapped number is greater than the original number
-            if (stoi(str) > n) {
+            // if (stoi(str) > n) {
                 return stoi(str);
-            } else {
-                // If not, revert the swap and continue searching
-                swap(str[i], str[maxi]);
-            }
+            // } else {
+            //     // If not, revert the swap and continue searching
+            //     swap(str[i], str[maxi]);
+            // }
         }
     }
 
