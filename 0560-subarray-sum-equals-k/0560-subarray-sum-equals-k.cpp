@@ -8,7 +8,7 @@ public:
         int n =nums.size();
         int count=0;
         int sum=0;
-        unordered_map<int,int> pref;
+        map<int,int> pref;
         for(int i=0;i<n;i++){
             sum+=nums[i];
             
