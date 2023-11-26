@@ -74,6 +74,9 @@ public:
         first = sortList(first);
         second = sortList(second);
         ListNode* result = solve(first,second);
+        // if (first->val <= second->val) {
+            // return first;
+        // }
         return result;
     }
 };
