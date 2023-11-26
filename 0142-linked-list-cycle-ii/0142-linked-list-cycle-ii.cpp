@@ -11,15 +11,22 @@ public:
 
     
      ListNode *detectCycle(ListNode *head) {
-         unordered_map<ListNode*, bool> visited;
-         ListNode* temp = head;
-         while(temp!=NULL){
-             if(visited[temp]){
-                 return temp;
-             }
-             visited[temp]=true;
-             temp=temp->next;
+         // unordered_map<ListNode*, bool> visited;
+         ListNode* slow = head;
+         ListNode* fast = head;
+         if(head==nullptr)return NULL;
+         while(fast->next && fast->next->next){
+             fast=fast->next->next;
+             slow=slow->next;
+             if(slow==fast)break;
          }
-         return NULL;
+         if(fast->next == nullptr || fast->next->next==nullptr)return NULL;
+         fast=head;
+         while(fast!=slow){
+             fast=fast->next;
+             slow=slow->next;
+         }
+         
+         return fast;
     }
 };
