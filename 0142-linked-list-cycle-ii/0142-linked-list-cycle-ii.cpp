@@ -18,15 +18,15 @@ public:
          while(fast->next && fast->next->next){
              fast=fast->next->next;
              slow=slow->next;
-             if(slow==fast)break;
+             if(slow==fast){
+                 fast=head;
+                 while(fast!=slow){
+                     fast=fast->next;
+                     slow=slow->next;
+                }
+                 return fast;
+            }
          }
-         if(fast->next == nullptr || fast->next->next==nullptr)return NULL;
-         fast=head;
-         while(fast!=slow){
-             fast=fast->next;
-             slow=slow->next;
-         }
-         
-         return fast;
+        return NULL;
     }
 };
