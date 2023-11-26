@@ -11,7 +11,7 @@ public:
 
     
      ListNode *detectCycle(ListNode *head) {
-         map<ListNode*, bool> visited;
+         unordered_map<ListNode*, bool> visited;
          ListNode* temp = head;
          while(temp!=NULL){
              if(visited[temp]){
