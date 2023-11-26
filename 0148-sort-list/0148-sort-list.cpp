@@ -33,7 +33,7 @@ public:
         while(first!=NULL && second!=NULL){
             if(first->val<second->val){
                 temp->next = first;
-                temp=first;
+                temp=temp->next;
                 first=first->next;
             }
             else{
@@ -54,6 +54,8 @@ public:
         }
         // ans = temp;
         // ans= ans->next;
+        cout<<temp->val;
+        //temp last m chala gya h
         return ans->next;
     }
     
@@ -68,18 +70,6 @@ public:
         ListNode* first = head;
         ListNode* second = mid->next;
         mid->next=NULL;
-        // while(temp!=mid->next){
-        //     first->next = temp->next;
-        //     first=first->next;
-        //     temp=temp->next;
-        // }
-        // //temp=mid->next;
-        // ListNode* second = new ListNode(temp->val);
-        // while(temp->next!=NULL){
-        //     second->next=temp->next;
-        //     temp=temp->next;
-        //     second=second->next;
-        // }
         //merge and sort;
         first = sortList(first);
         second = sortList(second);
