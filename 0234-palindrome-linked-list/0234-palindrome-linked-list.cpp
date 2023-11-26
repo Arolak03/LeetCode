@@ -8,22 +8,26 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
-
 class Solution {
 public:
     bool isPalindrome(ListNode* head) {
-        std::vector<int> arr;
-        while (head != nullptr) {
-            arr.push_back(head->val);
-            head = head->next;
+         if(head == NULL || head->next == NULL){
+            return (head);
         }
-        std::vector<int> revarray = arr;
-        std::reverse(revarray.begin(), revarray.end());
-
-        for (int i = 0; i < arr.size(); i++) {
-            if (revarray[i] != arr[i]) {
+        ListNode *r_head = NULL;
+        ListNode *ptr = head;
+        while(ptr!=NULL){
+            ListNode *temp = new ListNode(ptr->val);
+            temp ->next = r_head;
+            r_head = temp;
+            ptr = ptr->next;
+        }
+        while(head && r_head){
+            if(head->val != r_head->val){
                 return false;
             }
+            head = head->next;
+            r_head = r_head->next;
         }
         return true;
     }
