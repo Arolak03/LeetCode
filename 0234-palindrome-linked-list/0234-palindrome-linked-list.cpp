@@ -10,25 +10,40 @@
  */
 class Solution {
 public:
-    bool isPalindrome(ListNode* head) {
-         if(head == NULL || head->next == NULL){
-            return (head);
+bool isPalindrome(ListNode* head) {
+        // Steps to follow:
+        // 1_) Find the middle element
+        ListNode *slow = head, *fast = head;
+        while(fast!=NULL && fast->next !=NULL){
+            slow = slow->next;
+            fast = fast->next->next;
         }
-        ListNode *r_head = NULL;
-        ListNode *ptr = head;
-        while(ptr!=NULL){
-            ListNode *temp = new ListNode(ptr->val);
-            temp ->next = r_head;
-            r_head = temp;
-            ptr = ptr->next;
+        // 2_) if the no of nodes are odd then move slow to one point
+        if(fast != NULL && fast->next == NULL){
+            slow = slow->next;
         }
-        while(head && r_head){
-            if(head->val != r_head->val){
+        //3_) Reverse the end half
+        ListNode *prev = NULL;
+        ListNode *temp = NULL;
+        while(slow != NULL && slow->next != NULL){
+            temp = slow->next;
+            slow->next = prev;
+            prev = slow;
+            slow = temp;
+        }
+        if(slow != NULL){
+            slow->next = prev;
+        }
+        //4_) Compare the start half and end half if found any inequality then return false otherwise return true.
+        fast = head;
+        while(slow && fast){
+            if(slow->val != fast->val){
                 return false;
             }
-            head = head->next;
-            r_head = r_head->next;
+            slow = slow->next;
+            fast = fast->next;
         }
         return true;
+
     }
 };
