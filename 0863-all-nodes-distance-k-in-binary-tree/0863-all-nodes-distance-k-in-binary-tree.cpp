@@ -9,36 +9,64 @@
  */
 class Solution {
 public:
-    unordered_map<TreeNode*, TreeNode*> parentMap;
-    void dfs(TreeNode*root, TreeNode* parent){
-        if(root==NULL){
-            return;
+    
+    void par(TreeNode* root, unordered_map<TreeNode*, TreeNode*>& parent){
+        // if(root==NULL)return;
+        queue<TreeNode*>q;
+        q.push(root);
+        // parent[root]=NULL;
+        while(!q.empty()){
+            
+                TreeNode* temp=q.front();
+                q.pop();
+                if(temp->left){
+                    q.push(temp->left);
+                    parent[temp->left]=temp;
+                }
+                if(temp->right){
+                    parent[temp->right]=temp;
+                    q.push(temp->right);
+                }   
         }
-        parentMap[root]=parent;
-        dfs(root->left,root);
-        dfs(root->right,root);
-        return;
-    }
-    unordered_map<TreeNode*, bool> vis;
-    vector<int> solve(TreeNode* root, int k){
-        if(root==NULL || vis[root]){
-            return vector<int>();
-        }
-        if(k==0){
-            return vector<int>(1,root->val);
-        }
-        vis[root]=true;
-        vector<int> op1=solve(root->left,k-1);
-        vector<int> op2=solve(root->right,k-1);
-        vector<int> op3=solve(parentMap[root],k-1);
-        
-        op1.insert(op1.end(),op2.begin(),op2.end());
-        op1.insert(op1.end(),op3.begin(),op3.end());
-        return op1;
     }
     
+    
     vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
-        dfs(root,NULL);
-        return solve(target,k);
+        unordered_map<TreeNode*, TreeNode*> parent;
+        par(root, parent);
+        queue<TreeNode*> q;
+        q.push(target);
+        unordered_map<TreeNode*, bool> vis;
+        vis[target]=true;
+        int count=0;
+        
+        while(!q.empty()){
+            int sz=q.size();
+            if(count==k)break;
+            for(int i=0;i<sz;i++){
+                TreeNode* temp=q.front();
+                q.pop();
+                if(temp->left && !vis[temp->left]){
+                    q.push(temp->left);
+                    vis[temp->left]=true;
+                }
+                if(temp->right && !vis[temp->right]){
+                    q.push(temp->right);
+                    vis[temp->right]=true;
+                }
+                if(parent[temp] && !vis[parent[temp]]){
+                    q.push(parent[temp]);
+                    vis[parent[temp]]=true;
+                }
+                
+            }
+            count++;
+        }
+        vector<int> ans;
+        while(!q.empty()){
+            ans.push_back(q.front()->val);
+            q.pop();
+        }
+        return ans;
     }
 };
