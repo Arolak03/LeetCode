@@ -15,17 +15,17 @@ public:
     int solve(TreeNode* root, int& maxi){
         if(root==NULL)return 0;
         int leftSum=max(0,solve(root->left,maxi));
-        int rightSum=max(0,solve(root->right, maxi));
-        maxi=max(maxi, leftSum+rightSum+root->val);
-        return root->val+max(rightSum, leftSum);
+
+        int rightSum=max(0,solve(root->right,maxi));
+    
+        maxi=max(leftSum+rightSum+root->val,maxi);
+    
+        return max(leftSum,rightSum)+root->val;
     }
     
-    
     int maxPathSum(TreeNode* root) {
-        
         int maxi=INT_MIN;
-        solve(root, maxi);
+        solve(root,maxi);
         return maxi;
-        
     }
 };
