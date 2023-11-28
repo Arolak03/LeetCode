@@ -1,28 +1,31 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
+#include <cmath>
+
 class Solution {
 public:
     int countNodes(TreeNode* root) {
-        queue<TreeNode*> q  ;
-        vector<TreeNode*>ans;
-        if(!root)return NULL;
-        q.push(root);
-        while(!q.empty()){
-            TreeNode* temp = q.front();
-            q.pop();
-            ans.push_back(temp);
-            if(temp->left)q.push(temp->left);
-            if(temp->right)q.push(temp->right);
+        if (!root) {
+            return 0;
         }
-        return ans.size();
+
+        int leftHeight = 0, rightHeight = 0;
+        TreeNode *left = root, *right = root;
+
+        while (left) {
+            left = left->left;
+            leftHeight++;
+        }
+
+        while (right) {
+            right = right->right;
+            rightHeight++;
+        }
+
+        if (leftHeight == rightHeight) {
+            // If left and right subtrees have the same height, the tree is complete
+            return (1 << leftHeight) - 1; // 2^leftHeight - 1
+        } else {
+            // If the heights are different, recursively count nodes in left and right subtrees
+            return 1 + countNodes(root->left) + countNodes(root->right);
+        }
     }
 };
