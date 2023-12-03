@@ -1,45 +1,24 @@
 class Solution {
 public:
-    
-    void solve(vector<vector<int>>& mat,int& area){
-        int m =mat.size();
-        int n=mat[0].size();
-        int i=0;
-        int j=0;
-    // vector<int> arr(n);
-        while(i<m){
-           vector<int> arr(n);
-            for(j=0;j<n;j++){
-                arr[j]=(mat[i][j]);
-                // cout<<arr[i]<<" ";
-                
-            }
-            vector<int> temp=arr;
-            sort(arr.begin(),arr.end());
-            for(int j=n-1;j>=0;j--){
-                area=max(area,(n-j)*arr[j]);
-                cout<<temp[n-j-1]<<" ";
-                // if(arr[j]==0)break;
-            }
-            i++;
-            arr=temp;
-            if(i<m){
-                for(int j=0;j<n;j++){
-                    if(mat[i][j]!=0)mat[i][j]=arr[j]+1;
-                    // cout<<mat[i][j]<<" ";
+    int largestSubmatrix(vector<vector<int>>& matrix) {
+        int m = matrix.size();
+        int n = matrix[0].size();
+        int ans = 0;
+        
+        for (int row = 0; row < m; row++) {
+            for (int col = 0; col < n; col++) {
+                if (matrix[row][col] != 0 && row > 0) {
+                    matrix[row][col] += matrix[row - 1][col];
                 }
             }
+            
+            vector<int> currRow = matrix[row];
+            sort(currRow.begin(), currRow.end(), greater());
+            for (int i = 0; i < n; i++) {
+                ans = max(ans, currRow[i] * (i + 1));
+            }
         }
-    }
-    
-    
-    int largestSubmatrix(vector<vector<int>>& mat) {
-        int area=0;
-        int m =mat.size();
-        // for(int i=0;i<m;i++){
-                //saare rows pr traverse krungi
-        solve(mat,area);
-        // }
-        return area;
+        
+        return ans;
     }
 };
