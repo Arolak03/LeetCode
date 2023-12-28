@@ -1,8 +1,9 @@
 class Solution:
     def checkString(self, s: str) -> bool:
         length=len(s)
-        for i in range(length-1):
-            if s[i]=='b' and s[i+1]=='a':
+        st="".join(sorted(s))
+        for i in range(length):
+            if s[i]!=st[i]:
                 return False
             
         return True
