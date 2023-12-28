@@ -1,27 +1,37 @@
-#include <string>
-#include <sstream>
+#include <iostream>
 #include <vector>
+#include <sstream>
+
+using namespace std;
 
 class Solution {
 public:
-    std::string sortSentence(std::string s) {
-        std::vector<std::string> words(10); // Assuming there are at most 10 words
-
-        std::istringstream iss(s);
-        std::string word;
-        while (iss >> word) {
-            int index = word.back() - '0';
-            words[index] = word.substr(0, word.size() - 1);
-        }
-
-        std::string ans = "";
-        for (const auto& w : words) {
-            if (!w.empty()) {
-                ans += w + ' ';
+    string sortSentence(string s) {
+        vector<string> mpp(10);
+        int n = s.length();
+        for (int i = n - 1; i >= 0; i--) {
+            int temp = i;
+            if ('0' <= s[i] && s[i] <= '9') {
+                while (temp >= 0 && '0' <= s[temp] && s[temp] <= '9') {
+                    temp--;
+                }
+                int place = stoi(s.substr(temp + 1, i - temp));  // Corrected substring indices
+                string word = "";
+                while (temp >= 0 && s[temp] != ' ') {
+                    word += s[temp];
+                    temp--;
+                }
+                reverse(word.begin(), word.end());
+                mpp[place] = word;
             }
         }
-
-        ans.pop_back(); // Remove the trailing space
+        string ans = "";
+        for (int i = 1; i < mpp.size(); i++) {  // Start from index 1
+            ans += mpp[i];
+            if (i < mpp.size() - 1 && !mpp[i + 1].empty()) {
+                ans += ' ';
+            }
+        }
         return ans;
     }
 };
