@@ -1,36 +1,56 @@
+typedef long long int ll;
+const ll NO_VALUE = 1e9;
+
 class Solution {
+    int n;
+    vector<vector<int>> g;
+    vector<int> cost;
+    
+    vector<vector<ll>> val;
+    vector<ll> coins;
+    
+    void CalculateCoins (int src, int par) {
+        vector<ll> child_val = {cost[src]};
+        
+        for (auto i : g[src]) {
+            if (i == par) continue;
+            
+            CalculateCoins (i, src);
+            for (auto i : val[i]) child_val.push_back(i);
+        }
+        sort (child_val.begin(), child_val.end());
+        
+        if (child_val.size() < 3) {
+            coins[src] = 1;
+            val[src] = child_val;
+        }
+        else {
+            int n = child_val.size();        
+            ll max_product = -1e18;
+            max_product = max (max_product, child_val[0]*child_val[1]*child_val[n-1]);
+            max_product = max (max_product, child_val[n-1]*child_val[n-2]*child_val[n-3]);
+    
+            coins[src] = max_product < 0? 0 : max_product;
+            
+            if (child_val.size() < 6) val[src] = child_val;
+            else val[src] = {child_val[0], child_val[1], child_val[n-3], child_val[n-2], child_val[n-1]};
+        }
+    }
+    
 public:
-vector<long long> ans;
-
-vector<long long> dfs(vector<vector<int>>& t, vector<int>& cost, int root, int par){
-    vector<long long> usefulCost = {cost[root]};
-    for(auto n: t[root]){
-        if(n == par) continue;
-        vector<long long> v = dfs(t, cost, n, root);  //go deep into the leaf nodes first 
-        for(auto e: v) usefulCost.push_back(e);  //accumulate all the cost from all its child node at root level
+    vector<long long> placedCoins(vector<vector<int>>& edges, vector<int>& _cost) {
+        n = _cost.size();
+        
+        g.clear(), val.clear(), cost.clear(), coins.clear(); 
+        val.resize(n), g.resize(n), cost.resize(n), coins.resize(n);
+        cost = _cost;
+        
+        for (auto e: edges) {
+            g[e[0]].push_back(e[1]);
+            g[e[1]].push_back(e[0]);
+        }
+        
+        CalculateCoins(0, -1);
+        return coins;
     }
-
-    // After traversing all sub tree, sort the cost accumulated
-    sort(usefulCost.begin(), usefulCost.end(), greater<long long>());
-    long long sz = usefulCost.size();
-                                                                                        
-    if(usefulCost.size() < 3) { ans[root] = 1; return usefulCost; }  // check if the size of the sub tree less than 3 then set cost to 1 and return from here.
-    if(usefulCost[1] * usefulCost[2] > usefulCost[sz - 1] * usefulCost[sz -2]) {   // check if the product of the 2nd larget and 3rd larget is greater than smallest two numbers ( as two smaller values are negative and after multiplication they may give larger vlaues)
-        ans[root] = usefulCost[0] * usefulCost[1] * usefulCost[2];  
-    }
-    else {
-        ans[root] = usefulCost[0] * usefulCost[sz - 1] * usefulCost[sz - 2];   
-    }
-    if(ans[root] < 0) ans[root] = 0;
-    if(usefulCost.size() <= 5) return usefulCost;
-    return {usefulCost[0], usefulCost[1], usefulCost[2], usefulCost[sz-2], usefulCost[sz-1]};   //return largest 3 and smallest two items, only those can be useful in later on step and discard others.
-}
-
-vector<long long> placedCoins(vector<vector<int>>& edges, vector<int>& cost) {
-    ans.resize(cost.size(), 0); 
-    vector<vector<int>> t(cost.size());
-    for(auto e : edges){ t[e[0]].push_back(e[1]); t[e[1]].push_back(e[0]); }
-    dfs(t, cost, 0, -1);
-    return ans;
-}
 };
