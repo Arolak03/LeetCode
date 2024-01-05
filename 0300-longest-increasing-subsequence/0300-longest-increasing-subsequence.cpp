@@ -1,31 +1,18 @@
-#include <vector>
-#include <string>
-#include <algorithm>
-
 class Solution {
 public:
-        int bottomUp(vector<int>& nums){
-        vector<vector<int>> dp(nums.size()+1,vector<int>(nums.size()+1,0));
-
-        for(int curr=nums.size()-1;curr>=0;curr--){
-            for(int prev=curr-1;prev>=-1;prev--){
-
-                 
-                    int include=0;
-                    if(prev==-1||nums[curr]>nums[prev])
-                        include=1+dp[curr+1][curr+1];
-                    
-                    //exclude
-                    int exclude=dp[curr+1][prev+1];
-                    dp[curr][prev+1]= max(include,exclude);
-                    
-                }
-        }
-        return dp[0][0];
-    }
     int lengthOfLIS(vector<int>& nums) {
-         int prev=-1,curr=0;
-        return bottomUp(nums);
+        if(nums.size()==0)return 0;
+        vector<int> ans;
+        ans.push_back(nums[0]);
+        for(int i=1;i<nums.size();i++){
+            if(ans.back()<nums[i]){
+                ans.push_back(nums[i]);
+            }
+            else {
+                int index=lower_bound(ans.begin(), ans.end(), nums[i])-ans.begin();
+                ans[index]=nums[i];
+            }
+        }
+        return ans.size();
     }
 };
-
