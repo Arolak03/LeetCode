@@ -3,7 +3,8 @@ public:
     int val;
     int n;
     int temp;
-    vector<int>q;
+    // vector<int>q;
+    int count=0;
     bool flag=true;
     DataStream(int value, int k) {
         n=k;
@@ -12,26 +13,17 @@ public:
     }
     
     bool consec(int num) {
-        // cout<<num<<" ";
-        q.push_back(num);
-        // cout<<"yes";
-        // for(auto it: q)cout<<it;
-        // cout<<" ";
-        // cout<<"*"<<temp<<"*"<<" ";
-        // cout<<q.size()<<" ";
-        if(q.size()<n){
+        // q.push_back(num);
+        count++;
+        if(count<n){
            if(num==val && !flag){
-               cout<<"in"<<" ";
                temp--;
            }
             
             else if(num!=val){
                 temp=n-1;
                 flag=false;
-                cout<<num<<" ";
             }
-           cout<<"*"<<temp<<flag<<"*"<<" ";
-
             return false;
         }
         if(num!=val){
