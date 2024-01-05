@@ -3,7 +3,6 @@ public:
     int val;
     int n;
     int temp;
-    // vector<int>q;
     int count=0;
     bool flag=true;
     DataStream(int value, int k) {
@@ -13,13 +12,11 @@ public:
     }
     
     bool consec(int num) {
-        // q.push_back(num);
         count++;
         if(count<n){
            if(num==val && !flag){
                temp--;
            }
-            
             else if(num!=val){
                 temp=n-1;
                 flag=false;
