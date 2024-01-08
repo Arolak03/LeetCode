@@ -9,47 +9,41 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class info{
-    public:
-    int maxi;
-    int mini;
-    bool isBST;
-    int sum;
-};
-info solve(TreeNode*root, int &ans){
-    if(root==NULL)
-        return {INT_MIN,INT_MAX,true,0};
-    
-    info left = solve(root->left,ans);
-    info right = solve(root->right,ans);
-    info currNode;
-    
-    currNode.sum=root->val + left.sum + right.sum;
-    currNode.maxi=max(root->val,right.maxi);
-    currNode.mini = min(root->val,left.mini);
-    // cout<<currNode.sum<<endl;
-    //chreck bst
-    if(root->val>left.maxi && root->val<right.mini && left.isBST && right.isBST){
-        currNode.isBST = true;
-        
-    }
-    else{
-        currNode.isBST = false;
-    }
-    if(currNode.isBST){
-        ans=max(ans,currNode.sum);
-    }
-     // cout<<currNode.sum<<endl;
-    return currNode;
-  
-}
-
 class Solution {
 public:
-    int maxSumBST(TreeNode* root) {
-        int ans = 0;
-        info temp = solve(root,ans);
-        cout<<ans;
+    
+    class info{
+        public:
+        int maxi;
+        int mini;
+        int sum;
+        bool isBST;
+    };
+    
+    info solve(TreeNode* root, int& maxi){
+        if(root==NULL){
+            return {INT_MIN,INT_MAX,0,true};
+        }
+        info left=solve(root->left,maxi);
+        info right=solve(root->right,maxi);
+        info ans;
+        ans.maxi=max(right.maxi,root->val);
+        ans.mini=min(left.mini,root->val);
+        ans.sum=root->val+left.sum+right.sum;
+        if(root->val>left.maxi && root->val<right.mini && left.isBST && right.isBST){
+            ans.isBST=true;
+        }
+        else ans.isBST=false;
+        if(ans.isBST){
+            maxi=max(maxi,ans.sum);
+        }
         return ans;
+    }
+    
+    int maxSumBST(TreeNode* root) {
+        
+        int maxi=0;
+        solve(root,maxi);
+        return maxi;
     }
 };
