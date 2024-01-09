@@ -9,11 +9,11 @@ public:
 		int n=env.size();
 		sort(env.begin(),env.end(),comp);   
 		vector<int> temp;
-		temp.push_back(env[0][1]);
+		temp.push_back(env[0][1]); //height daali phle ki
 		for(int i=1;i<n;i++){
-			if(temp.back()<env[i][1]) temp.push_back(env[i][1]);
+			if(temp.back()<env[i][1]) temp.push_back(env[i][1]); //last element aage wala
 			else{
-				int ind=lower_bound(temp.begin(),temp.end(),env[i][1])-temp.begin();
+				int ind=lower_bound(temp.begin(),temp.end(),env[i][1])-temp.begin(); // lower bound that is not less than height of the 2nd envelope then by -begin, index is calculated
 				temp[ind]=env[i][1];
 			}
 		}
