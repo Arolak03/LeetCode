@@ -42,6 +42,7 @@ public:
         while (!q.empty()) {
             int n=q.size();
             while(n--){
+                //ek node k neigh ek hi count m pop honge na
                 TreeNode* temp = q.front();
                 q.pop();
                 vis[temp]=true;
