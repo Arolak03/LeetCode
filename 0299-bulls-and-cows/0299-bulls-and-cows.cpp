@@ -27,19 +27,11 @@ public:
         // for(auto it: mpp2)cout<<it.first<<it.second<<" ";
         for(int i=0;i<secret.size();i++){
             if(mpp2.find(secret[i]-'0')!=mpp.end()){
-                // cout<<"in";
-                if(mpp2[secret[i]-'0']==mpp[secret[i]-'0']){
-                    // cout<<secret[i]<<" ";
-                    cows+=mpp2[secret[i]-'0'];
-                    mpp[secret[i]-'0']=-1;
-                    // cout<<"in";
-                }
-                else if(mpp[secret[i]-'0']!=-1){
-                    // cout<<secret[i];
-                    cout<<min(mpp[secret[i]-'0'],mpp2[secret[i]-'0']);
+            
+                
                     cows=cows+(min(mpp[secret[i]-'0'],mpp2[secret[i]-'0']));
                     mpp[secret[i]-'0']=0;
-                }
+                
             }
         
         }
