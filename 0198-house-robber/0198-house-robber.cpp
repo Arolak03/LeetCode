@@ -1,23 +1,17 @@
 class Solution {
 public:
-    int money(vector<int>& nums, int index, vector<int>& dp){
-        int n = nums.size();
-        if(index>=n){
-            return 0;
-        }
-        
-        if(dp[index]!=-1){
-            return dp[index];
-        }
-        int incl = nums[index]+money(nums,index+2,dp);
-        int excl = 0+money(nums,index+1,dp);
-        dp[index]= max(incl,excl);
-        return dp[index];
+    
+    int solve(vector<int>& nums, int index, vector<int>& dp){
+        if(index>=nums.size())return 0;
+        //ye ya fr next
+        if(dp[index]!=-1)return dp[index];
+        int first=nums[index]+solve(nums,index+2,dp);
+        int second=solve(nums,index+1,dp);
+        return dp[index]=max(first,second);
     }
     
     int rob(vector<int>& nums) {
-        int n = nums.size();
-        vector<int> dp(n+1,-1);
-        return money(nums,0, dp);
+        vector<int>dp(nums.size()+1,-1);
+        return solve(nums,0,dp);
     }
 };
