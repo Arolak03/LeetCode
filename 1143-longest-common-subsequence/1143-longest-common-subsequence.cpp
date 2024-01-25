@@ -1,24 +1,18 @@
 class Solution {
 public:
     
-    int subs(string& a, string& b, int i, int j, vector<vector<int>>& dp){
-        if(a.length()==i || b.length()==j){
-            return 0;
-        }
-        if(dp[i][j]!=-1){
-            return dp[i][j];
-        }
-        int ans=0;
-        if(a[i]==b[j]){
-            ans = 1+subs(a,b,i+1,j+1,dp);
-        }
-        else{
-            ans = max(subs(a,b,i+1,j,dp),subs(a,b,i,j+1,dp));
-        }
-        return dp[i][j]=ans;
+    
+    int solve(string& x, string& y, int i, int j, vector<vector<int>>& dp){
+        if(i>=x.length() || j>=y.length())return 0;
+        //include
+        if(dp[i][j]!=-1)return dp[i][j];
+        if(x[i]==y[j])return dp[i][j]=1+solve(x,y,i+1,j+1,dp);
+        return dp[i][j]=max(solve(x,y,i+1,j,dp),solve(x,y,i,j+1,dp));
     }
+    
     int longestCommonSubsequence(string text1, string text2) {
-        vector<vector<int>> dp(text1.length(), vector<int>(text2.length(),-1));
-        return subs(text1, text2,0,0,dp);
+        //longest
+        vector<vector<int>> dp(text1.length()+1, vector<int>(text2.length()+1,-1));
+        return solve(text1, text2, 0, 0,dp);
     }
 };
