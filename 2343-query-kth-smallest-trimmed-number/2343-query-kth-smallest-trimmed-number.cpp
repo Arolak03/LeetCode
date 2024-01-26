@@ -1,20 +1,26 @@
 class Solution {
 public:
     vector<int> smallestTrimmedNumbers(vector<string>& nums, vector<vector<int>>& queries) {
-        vector<int> op(queries.size());
+        vector<int> ans;
         for(int i=0;i<queries.size();i++){
-            vector<pair<string,int>> ans;
+            int trim=queries[i][1];
+            int kth=queries[i][0];
+            int len=nums[0].length();
+            int size=len-trim;
+            priority_queue<pair<string, int>>pq;
             for(int j=0;j<nums.size();j++){
-                string  mine=nums[j].substr(nums[j].size()-queries[i][1]);
-                // cout<<mine<<" ";
-                ans.push_back({mine,j});
+                // int len=nums[j].size();
+                string temp=nums[j].substr(size,trim);
+                if(pq.size()<kth){
+                    pq.push({temp,j});
+                }        
+                else if(pq.top().first>temp){
+                    pq.pop();
+                    pq.push({temp,j});
+                }
             }
-            sort(ans.begin(),ans.end());
-            int kth=queries[i][0]-1;
-            op[i]=(ans[kth].second);
+            ans.push_back(pq.top().second);
         }
-        for(auto it:op)cout<<it<<" ";
-
-        return op;
+        return ans;
     }
 };
