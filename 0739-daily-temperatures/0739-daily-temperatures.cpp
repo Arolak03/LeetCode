@@ -8,7 +8,6 @@ public:
             while(!s.empty() && t[s.top()]<=t[i]){
                 s.pop();
             }
-            if(!s.empty())cout<<s.top()<<" ";
             if(!s.empty())right[i]=s.top();
             s.push(i);
         }
