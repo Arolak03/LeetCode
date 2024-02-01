@@ -4,8 +4,8 @@ private:
     const int primeFactors[10] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29};
 
 public:
-    int squareFreeSubsets(std::vector<int>& nums) {
-        std::vector<int> squareFreeBitmaps;
+    int squareFreeSubsets(vector<int>& nums) {
+        vector<int> squareFreeBitmaps;
         // Create a vector of bitmaps for square-free numbers
         for (int num : nums) {
             if (isSquareFree(num)) {
@@ -14,7 +14,7 @@ public:
         }
 
         // Initialize memoization table for dynamic programming
-        std::vector<std::vector<int>> dp(squareFreeBitmaps.size() + 1, std::vector<int>(1 << 10, -1));
+        vector<vector<int>> dp(squareFreeBitmaps.size() + 1, vector<int>(1 << 10, -1));
 
         // Start the recursive function to count subsets
         return countSubsets(0, 0, dp, squareFreeBitmaps);
@@ -42,8 +42,8 @@ public:
         }
 
         // Memoize the result and return
-        dp[idx][bitmask] = count;
-        return count;
+        return dp[idx][bitmask] = count;
+        // return count;
     }
 
     // Convert a number to a bitmap based on its prime factors
