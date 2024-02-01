@@ -1,56 +1,69 @@
 class Solution {
+private:
+    const int MOD = 1000000007;
+    const int primeFactors[10] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29};
+
 public:
-    int mod=1e9+7;
-    int dp[1000][1<<10];
-
-    int pf(int a,int b){
-        int ans=1;
-        while(b){
-            if(b&1){
-                ans=(ans*1LL*a)%mod;
+    int squareFreeSubsets(std::vector<int>& nums) {
+        std::vector<int> squareFreeBitmaps;
+        // Create a vector of bitmaps for square-free numbers
+        for (int num : nums) {
+            if (isSquareFree(num)) {
+                squareFreeBitmaps.push_back(convertToBitmap(num));
             }
-            a=(a*1LL*a)%mod;
-            b=b>>1;
         }
-        return ans%mod;
-    }
-    int help(int mask,int idx,vector<int> &tmp){
-        if(idx==tmp.size()){
-            return mask!=0;
-        }
-        if(dp[idx][mask]!=-1) return dp[idx][mask];
-        int notTake=help(mask,idx+1,tmp);
-        int take=0;
-        if((tmp[idx]&mask)==0){
-            take=help(mask^tmp[idx],idx+1,tmp);
-        }
-        return dp[idx][mask]=(take+notTake)%mod;
+
+        // Initialize memoization table for dynamic programming
+        std::vector<std::vector<int>> dp(squareFreeBitmaps.size() + 1, std::vector<int>(1 << 10, -1));
+
+        // Start the recursive function to count subsets
+        return countSubsets(0, 0, dp, squareFreeBitmaps);
     }
 
-    int squareFreeSubsets(vector<int>& nums) {
-        unordered_set<int> st={4,8,9,12,16,18,20,24,25,27,28};
-        vector<int> factors={2,3,5,7,11,13,17,19,23,29};
-        vector<int> tmp;
-        int cnt0=0;
+    // Recursive function to count subsets using bitmasking
+    int countSubsets(int idx, int bitmask, std::vector<std::vector<int>>& dp, const std::vector<int>& squareFreeBitmaps) {
+        if (idx >= squareFreeBitmaps.size()) {
+            return 0;
+        }
 
-        for(auto x:nums){
-            if(x==1){
-                cnt0++;
-                continue;
-            }
-            if(!st.count(x)){
-                int t=0;
-                for(int i=0;i<10;i++){
-                    if(x%factors[i]==0){
-                        t=t^(1<<i);
-                    }
-                }
-                tmp.push_back(t);
+        // If the result is already memoized, return it
+        if (dp[idx][bitmask] >= 0) {
+            return dp[idx][bitmask];
+        }
+
+        // Current square-free bitmap
+        int currentBitmap = squareFreeBitmaps[idx];
+        // Count subsets without including the current bitmap
+        int count = countSubsets(idx + 1, bitmask, dp, squareFreeBitmaps);
+
+        // If the current bitmap is not overlapping with the existing ones, include it
+        if ((bitmask & currentBitmap) == 0) {
+            count = (count + 1 + countSubsets(idx + 1, bitmask | currentBitmap, dp, squareFreeBitmaps)) % MOD;
+        }
+
+        // Memoize the result and return
+        dp[idx][bitmask] = count;
+        return count;
+    }
+
+    // Convert a number to a bitmap based on its prime factors
+    int convertToBitmap(int num) {
+        int bitmap = 0;
+        for (int i = 0; i < 10; ++i) {
+            if (num % primeFactors[i] == 0) {
+                bitmap += 1 << i;
             }
         }
-        memset(dp,-1,sizeof dp);
-        int ans=help(0,0,tmp);
-        ans=((ans*1LL*pf(2,cnt0))%mod + 1LL*pf(2,cnt0)-1+mod)%mod;
-        return ans;
+        return bitmap;
+    }
+
+    // Check if a number is square-free
+    bool isSquareFree(int num) {
+        for (int pf : primeFactors) {
+            if (num % (pf * pf) == 0) {
+                return false;
+            }
+        }
+        return true;
     }
 };
