@@ -52,32 +52,53 @@ public:
     }
     
     void put(int key, int value) {
-    if (mpp.find(key) != mpp.end()) {
-        ListNode* curr = mpp[key];
-        curr->data = value;
-        moveToHead(curr);
-    } else {
-        ListNode* temp = new ListNode(key, value);
-        if (mpp.size() >= k) {
-            mpp.erase(tail->key);
-            if (tail->prev) {
-                tail = tail->prev;
-                tail->next = NULL;
-            } else {
-                head = tail = NULL;
+        if(mpp.find(key)!=mpp.end()){
+            ListNode* curr=mpp[key];
+            curr->data=value;
+            moveToHead(curr);
+        }
+        else{
+            // ListNode* temp = new ListNode(key, value);
+            // if (mpp.size() >= k) {
+            //     mpp.erase(tail->key);
+            //     if (tail->prev) {
+            //         tail = tail->prev;
+            //         tail->next = NULL;
+            //     } else {
+            //         head = tail = NULL;
+            //     }
+            // }
+            // mpp[key] = temp;
+            // if (!head) {
+            //     head = tail = temp;
+            // } else {
+            //     temp->next = head;
+            //     head->prev = temp;
+            //     head = temp;
+            ListNode* temp=new ListNode(key,value);
+            if(mpp.size()>=k){
+                // ListNode* temp=new ListNode(key,value);
+                // moveToHead(temp);
+                mpp.erase(tail->key);
+                if(tail->prev){
+                    tail=tail->prev;
+                    tail->next=NULL;
+                }
+                else{
+                    head=tail=NULL;
+                }
+            }
+            mpp[key]=temp;
+            if(!head){
+                head=tail=temp;
+            }
+            else{
+                temp->next=head;
+                head->prev=temp;
+                head=temp;
             }
         }
-        mpp[key] = temp;
-        if (!head) {
-            head = tail = temp;
-        } else {
-            temp->next = head;
-            head->prev = temp;
-            head = temp;
-        }
     }
-}
-
 };
 
 /**
