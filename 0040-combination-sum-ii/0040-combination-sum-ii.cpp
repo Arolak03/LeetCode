@@ -1,37 +1,35 @@
 class Solution {
 public:
-    void solve(vector<int>& candidates, int target, vector<vector<int>>& ans, vector<int>& op, int index) {
-        if (target == 0) {
+    
+    
+    void solve(vector<int>& arr, int target, vector<vector<int>>& ans, int index, vector<int>& op){
+        if(target==0){
+            // for(auto it: op)cout<<it<<" ";
+            // sort(op.begin(), op.end());
             ans.push_back(op);
             return;
         }
-        if (index >= candidates.size() || target < 0)
-            return;
-
-        for (int i = index; i < candidates.size(); i++) {
-            if (i > index && candidates[i] == candidates[i - 1]) {
-                continue; // Skip duplicates
-            } 
-            if (candidates[i]>target) {
-                break; // Skip duplicates
-            } 
-
-            op.push_back(candidates[i]);
-            solve(candidates, target - candidates[i], ans, op, i + 1);
-            op.pop_back();
+        if(target<0 || index>=arr.size())return;
+        for(int i=index;i<arr.size();i++){    
+            if(i>index && arr[i]==arr[i-1])continue;
+            if(arr[i]>target)break;
+            op.push_back(arr[i]);
+            solve(arr,target-arr[i],ans,i+1,op);
+            op.pop_back();     
         }
+        // solve(arr,target,ans,index+1,op);
     }
-
+    
+    
     vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        sort(candidates.begin(), candidates.end());
         vector<vector<int>> ans;
-        vector<int> op;
-
-        sort(candidates.begin(), candidates.end()); // Sort the candidates
-        solve(candidates, target, ans, op, 0);
-
-        // set<vector<int>> uniqueCombinations(ans.begin(), ans.end());
-        // ans.assign(uniqueCombinations.begin(), uniqueCombinations.end());
-
+        vector<int> opp;
+        solve(candidates,target,ans,0,opp);
+        // vector<vector<int>> op;
+        // for(auto it: ans){
+        //     op.push_back(it);
+        // }
         return ans;
     }
 };
