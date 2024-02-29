@@ -1,39 +1,64 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
 class Solution {
 public:
     bool isEvenOddTree(TreeNode* root) {
-        TreeNode* current = root;
-        return dfs(current, 0);
-    }
-
-private:
-    vector<int> prev;
-    bool dfs(TreeNode* current, size_t level) {
-        // Base case, an empty tree is Even-Odd
-        if (current == nullptr) {
-            return true;
+        queue<TreeNode*> q;
+        q.push(root);
+        // vector<TreeNode*> ans;
+        if(root->val%2==0)return false;
+        bool even=false;
+        while(!q.empty()){
+            int sz=q.size();
+            vector<TreeNode*> ans;
+            while(sz--){
+                
+                TreeNode* top=q.front();
+                q.pop();
+                // ans.push_back(top->val);
+                if(top->left){
+                    q.push(top->left);
+                    ans.push_back(top->left);
+                    // if(even){
+                    //     if(top->left->val%2==0)return false;
+                    // }
+                    // else{
+                    //     if(top->left->val%2!=0)return false;
+                    // }
+                }
+                if(top->right){
+                    q.push(top->right);
+                    ans.push_back(top->right);
+                    // if(even)if(top->right->val%2==0)return false;
+                    // else if(top->right->val%2!=0)return false;
+                }
+                // even=!even;
+            }
+            int prev=-1;
+            for(int i=0;i<ans.size();i++){
+                if(even){
+                    if(ans[i]->val%2==0 || prev>=ans[i]->val)return false;
+                }
+                else{
+                    if(ans[i]->val%2!=0 || (i>0 && prev<=ans[i]->val)){
+                        cout<<ans[i]->val<<prev;
+                        return false;
+                    }
+                }
+                prev=ans[i]->val;
+            }
+            even=!even;
         }
-
-        // Compare the parity of current and level
-        if (current->val % 2 == level % 2) {
-            return false;
-        }
-
-        // Resize prev to make room for the new level
-        prev.resize(max(prev.size(), level + 1));
-
-        // If there are previous nodes on this level, check increasing/decreasing
-        // If on an even level, check that currrent's value is greater than the previous on this level
-        // If on an odd level, check that current's value is less than the previous on this level
-        if (prev[level] != 0 && 
-                ((level % 2 == 0 && current->val <= prev[level]) ||
-                 (level % 2 == 1 && current->val >= prev[level]))) {
-            return false;  // Not in the required order
-        }
-
-        // Add current value to prev at index level
-        prev[level] = current->val;
-
-        // Recursively call DFS on the left and right children
-        return dfs(current->left, level + 1) && dfs(current->right, level + 1);
+        return true;
+        
     }
 };
