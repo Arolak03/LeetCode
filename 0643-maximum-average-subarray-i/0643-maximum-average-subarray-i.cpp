@@ -18,17 +18,14 @@ public:
         
         while(m--){
             avg+=nums[j];
-            cout<<nums[j]<<" ";
             j++;
         }
         ans=max(ans,avg/k);
         while(i<n-k && j<n){
-           avg-=nums[i];
-            i++;
-            // j++;
-           avg+=nums[j];
+           avg=avg-nums[i]+nums[j];
+           i++;
            j++;
-            ans=max(ans,avg/k);
+           ans=max(ans,avg/k);
         }
         return ans;
     }
