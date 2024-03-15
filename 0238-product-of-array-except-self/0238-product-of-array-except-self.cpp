@@ -1,33 +1,23 @@
-#include <vector>
-#include <set>
-
 class Solution {
 public:
     vector<int> productExceptSelf(vector<int>& nums) {
+        // vector<int> ans(n,1);
         int n = nums.size();
-        int prod1 = 1;
-        int prod2 = 1;
-
-        // Check if there is more than one zero in the vector
-        int zeroCount = count(nums.begin(), nums.end(), 0);
-        if (zeroCount >1 ) {
-            return vector<int>(n, 0);
+        vector<int> left(n,1);
+        // int n =nums.size();
+        vector<int> ans(n,1);
+        vector<int> right(n,1);
+        right[n-1]=nums[n-1];
+        left[0]=nums[0];
+        for(int i=1;i<n;i++){
+            left[i]=nums[i]*left[i-1];
+            right[n-i-1]=right[n-i]*nums[n-i-1];
         }
-
-        for (int i = 0; i < n; i++) {
-            if (nums[i] != 0) prod1 *= nums[i];
-            prod2 *= nums[i];
+        for(int i=1;i<n-1;i++){
+            ans[i]=left[i-1]*right[i+1];
         }
-
-        vector<int> ans(n, prod1);
-        for (int i = 0; i < n; i++) {
-            if (nums[i] != 0) {
-                ans[i] = prod2 / nums[i];
-            } else {
-                ans[i] = prod1;
-            }
-        }
-
+        ans[0]=right[1];
+        ans[n-1]=left[n-2];
         return ans;
     }
 };
