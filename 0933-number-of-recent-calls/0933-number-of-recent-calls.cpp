@@ -1,6 +1,6 @@
 class RecentCounter {
 public:
-    priority_queue<int, vector<int> , greater<int>> pq;
+    queue<int> pq;
     RecentCounter() {
         
         
@@ -8,8 +8,8 @@ public:
     
     int ping(int t) {
         
-        while(!pq.empty() && pq.top()<t-3000){
-            cout<<pq.top();
+        while(!pq.empty() && pq.front()<t-3000){
+            // cout<<pq.top();
             pq.pop();
         }
         pq.push(t);
