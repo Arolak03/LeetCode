@@ -31,25 +31,51 @@ public:
         // return ans;
         
         
-        int n =intervals.size();
+        //app2
+        // int n =intervals.size();
+        // vector<vector<int>> ans;
+        // int i=0;
+        // while(i<n && intervals[i][1]<newInterval[0]){
+        //     ans.push_back(intervals[i]);
+        //     i++;
+        // }
+        // while(i<n && newInterval[1]>=intervals[i][0]){
+        //     newInterval[0]=min(newInterval[0],intervals[i][0]);
+        //     newInterval[1]=max(newInterval[1],intervals[i][1]);
+        //     i++;
+        // }
+        // ans.push_back(newInterval);
+        // while(i<n){
+        //     ans.push_back(intervals[i]);
+        //     i++;
+        // }
+        // return ans;
+        
+        
+        
+        //app3
+        if(intervals.empty())return {newInterval};
         vector<vector<int>> ans;
-        int i=0;
-        while(i<n && intervals[i][1]<newInterval[0]){
-            ans.push_back(intervals[i]);
-            i++;
+        int n =intervals.size();
+        int left=0;
+        int right=n-1;
+        //position
+        while(left<=right){
+            int mid=(left+right)/2;
+            if(intervals[mid][0]<newInterval[0])left=mid+1;
+            else right=mid-1;
         }
-        while(i<n && newInterval[1]>=intervals[i][0]){
-            newInterval[0]=min(newInterval[0],intervals[i][0]);
-            newInterval[1]=max(newInterval[1],intervals[i][1]);
-            i++;
-        }
-        ans.push_back(newInterval);
-        while(i<n){
-            ans.push_back(intervals[i]);
-            i++;
-        }
-        return ans;
+        intervals.insert(intervals.begin()+left,newInterval);
         
+        //overlapped
         
+        for(const auto& interval: intervals){
+            if(ans.empty() || ans.back()[1]<interval[0])ans.push_back(interval);
+            else{
+                ans.back()[1]=max(ans.back()[1],interval[1]);
+            }
+            
+        }
+        return ans;  
     }
 };
