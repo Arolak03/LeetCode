@@ -1,41 +1,33 @@
 class Solution {
 public:
     int leastInterval(vector<char>& tasks, int n) {
-        // Building frequency map
-        int freq[26] = {0};
-        for (char &ch : tasks) {
-            freq[ch - 'A']++;
+        unordered_map<char, int> mpp;
+        for(int i=0;i<tasks.size();i++){
+            mpp[tasks[i]]++;
         }
-
-        // Max heap to store frequencies
         priority_queue<int> pq;
-        for (int i = 0; i < 26; i++) {
-            if (freq[i] > 0) {
-                pq.push(freq[i]);
-            }
+        for(auto it: mpp){
+            pq.push(it.second);
         }
-
-        int time = 0;
-        // Process tasks until the heap is empty
-        while (!pq.empty()) {
-            int cycle = n + 1;
+        int ans=0;
+        while(!pq.empty()){
+            int cycle=n+1;
+            int taskcount=0;
             vector<int> store;
-            int taskCount = 0;
-            // Execute tasks in each cycle
-            while (cycle-- && !pq.empty()) {
-                if (pq.top() > 1) {
-                    store.push_back(pq.top() - 1);
+            while(cycle-- && !pq.empty()){
+                if(pq.top()>1){
+                    //not just one leftauto 
+                    store.push_back(pq.top()-1);
                 }
                 pq.pop();
-                taskCount++;
+                taskcount++;
             }
-            // Restore updated frequencies to the heap
-            for (int &x : store) {
-                pq.push(x);
-            }
-            // Add time for the completed cycle
-            time += (pq.empty() ? taskCount : n + 1);
+            //fill pq waps
+            for(auto it: store)pq.push(it);
+            //pq empty h store m kuch nhi h koi bcha nhi h wrna cycles ==0 to n+1 add krdo
+            ans+= pq.empty()? taskcount: n+1; 
+            
         }
-        return time;
+        return ans;
     }
 };
