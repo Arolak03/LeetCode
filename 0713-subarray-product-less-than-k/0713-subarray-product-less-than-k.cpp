@@ -24,22 +24,46 @@ public:
         // }
         // return count;
         // // solve(nums,1,k,0);
+        // if(k==0)return 0;
+        // int count=0;
+        // int n = nums.size();
+        // for(int i=0;i<n;i++){
+        //     long long pro=1;
+        //     for(int j=i;j<n;j++){
+        //         pro*=nums[j];
+        //         if(k>pro){
+        //             count++;
+        //             // break;
+        //         }
+        //         if(k<=pro)break;
+        //     }
+        // }
+        // return count;
+        
         if(k==0)return 0;
+        double logk=log(k);
+        int n=nums.size()+1;
+        vector<double> logarray(n);
+        
+        for(int i=0;i<nums.size();i++){
+            logarray[i+1]=logarray[i]+log(nums[i]);
+        }
         int count=0;
-        int n = nums.size();
         for(int i=0;i<n;i++){
-            long long pro=1;
-            for(int j=i;j<n;j++){
-                pro*=nums[j];
-                if(k>pro){
-                    count++;
-                    // break;
+            int low=i+1;
+            int high=n;
+            while(low<high){
+                int mid=low+(high-low)/2;
+                if(logarray[mid]<logarray[i]+logk - 1e-9){
+                    low=mid+1;
                 }
-                if(k<=pro)break;
+                else{
+                    high=mid;
+                }
             }
+            count+=low-i-1;
         }
         return count;
-        
         
         
     }
